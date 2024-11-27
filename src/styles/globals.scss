@@ -1,6 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import 'fonts';
+@import 'reset';
+
+// css 변수(variables)
+$white: #fff;
+$black: #000;
 
 :root {
     --background: #ffffff;
