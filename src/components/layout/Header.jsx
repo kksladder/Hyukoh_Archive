@@ -21,7 +21,12 @@ const Header = () => {
                 </Heading>
                 <nav>
                     <Link href={'http://madeinaaa.com/'}>
-                        <Image src='/images/components/20-aaa-vinyl-02-900x900.jpg' atl='' width={60} height={60} />
+                        <Image
+                            src='/images/components/20-aaa-vinyl-02-900x900.jpg'
+                            atl='aaalp'
+                            width={60}
+                            height={60}
+                        />
                     </Link>
                 </nav>
             </Container>
