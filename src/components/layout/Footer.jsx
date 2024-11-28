@@ -30,7 +30,7 @@ const Footer = () => {
         },
     ];
     return (
-        <footer className='bg-gray-300 py-3'>
+        <footer className='bg-gray-300 py-3 mt-11'>
             <Container>
                 <Flex justifyContent='space-between' alignItems='center'>
                     <Link href={'https://www.youtube.com/c/hyukoh'}>
