@@ -32,24 +32,28 @@ const Footer = () => {
     return (
         <footer className='bg-gray-300 py-3'>
             <Container>
-                <Flex justifyContent='space-between ' gap={4}>
-                    <FaAtlassian size={30} className='text-black' />
-                    <Text fontSize='lg' fontWeight='semi-bold' mr='15' mt='1'>
-                        2024 AAA
-                    </Text>
-
-                    {socialLinks.map((social) => {
-                        const IconComponent = social.icon;
-
-                        return (
-                            <Link key={social.name} href={social.url} target='_blank' rel='noopener noreferrer '>
-                                <IconComponent
-                                    size={33}
-                                    className=' flex justify-content: flex-end; text-black hover:text-gray-700 transition-colors'
-                                />
-                            </Link>
-                        );
-                    })}
+                <Flex justifyContent='space-between' alignItems='center'>
+                    <Link href={'https://www.youtube.com/c/hyukoh'}>
+                        <Flex alignItems='center'>
+                            <FaAtlassian size={30} className='text-black mr-2' />
+                            <Text fontSize='sm' fontWeight='bold'>
+                                2024 AAA
+                            </Text>
+                        </Flex>
+                    </Link>
+                    <Flex gap={3}>
+                        {socialLinks.map((social) => {
+                            const IconComponent = social.icon;
+                            return (
+                                <Link key={social.name} href={social.url} target='_blank' rel='noopener noreferrer'>
+                                    <IconComponent
+                                        size={30}
+                                        className='text-black hover:text-gray-700 transition-colors'
+                                    />
+                                </Link>
+                            );
+                        })}
+                    </Flex>
                 </Flex>
             </Container>
         </footer>
