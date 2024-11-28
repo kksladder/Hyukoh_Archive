@@ -14,8 +14,9 @@ const Header = () => {
                         <Image
                             src='/images/components/GUOc8bHXYAAsROI.jpg' // 로고 이미지 경로
                             alt='logo'
-                            width={60} // 원하는 너비
-                            height={50} // 원하는 높이
+                            width={41} // 원하는 너비
+                            height={41} // 원하는 높이
+                            className='mt-3'
                         />
                     </Link>
                 </Heading>
@@ -23,9 +24,10 @@ const Header = () => {
                     <Link href={'http://madeinaaa.com/'}>
                         <Image
                             src='/images/components/20-aaa-vinyl-02-900x900.jpg'
-                            atl='aaalp'
-                            width={60}
+                            alt='aaalp'
+                            width={41}
                             height={60}
+                            className='mt-3'
                         />
                     </Link>
                 </nav>

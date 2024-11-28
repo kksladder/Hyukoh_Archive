@@ -11,7 +11,7 @@ export default function Page() {
         <>
             <Header />
             <Main>
-                <Container>{/* <Home /> */}</Container>
+                <Home />
             </Main>
             <Footer />
         </>

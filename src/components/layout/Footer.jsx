@@ -1,9 +1,10 @@
 'use client';
 
-import { Container, Flex } from '@chakra-ui/layout';
+import { Container, Flex, Text } from '@chakra-ui/layout';
 import React from 'react';
 import Link from 'next/link';
 import { FaInstagram, FaYoutube, FaFacebook, FaSpotify } from 'react-icons/fa';
+import { FaAtlassian } from 'react-icons/fa6';
 
 const Footer = () => {
     const socialLinks = [
@@ -29,15 +30,23 @@ const Footer = () => {
         },
     ];
     return (
-        <footer className='bg-gray-300 py-4'>
+        <footer className='bg-gray-300 py-3'>
             <Container>
-                <Flex justifyContent='center' alignItems='center' gap={4}>
+                <Flex justifyContent='space-between ' gap={4}>
+                    <FaAtlassian size={30} className='text-black' />
+                    <Text fontSize='lg' fontWeight='semi-bold' mr='15' mt='1'>
+                        2024 AAA
+                    </Text>
+
                     {socialLinks.map((social) => {
                         const IconComponent = social.icon;
 
                         return (
-                            <Link key={social.name} href={social.url} target='_blank' rel='noopener noreferrer'>
-                                <IconComponent size={30} className='text-black hover:text-gray-700 transition-colors' />
+                            <Link key={social.name} href={social.url} target='_blank' rel='noopener noreferrer '>
+                                <IconComponent
+                                    size={33}
+                                    className=' flex justify-content: flex-end; text-black hover:text-gray-700 transition-colors'
+                                />
                             </Link>
                         );
                     })}
