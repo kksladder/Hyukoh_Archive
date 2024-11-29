@@ -13,10 +13,12 @@ const Home = () => {
         { href: 'https://youtu.be/ECMc1SB60E0?si=1l99cEXJ3JHPKQU-', src: '/images/components/22.jpg' },
         { href: 'https://youtu.be/hwSF28PG_Fo?si=lNRagcAwcGBOZTdG', src: '/images/components/pandabear.jpg' },
         { href: 'https://youtu.be/IUoTjkS242c?si=_Y3pd_aJQ776sZLV', src: '/images/components/20.jpg' },
+
         {
             href: 'https://www.xiaohongshu.com/user/profile/667291530000000007005a0d?xhsshare=CopyLink&appuid=667291530000000007005a0d&apptime=1719478222',
             src: '/images/components/nav-looks.svg',
         },
+
         { href: 'https://lnk.to/aaa_album', src: '/images/components/nav-archive.svg' },
         { href: 'https://youtu.be/Js67kofnQw0?si=z7yxFKk5GZZ_t4h2', src: '/images/components/nav-video.svg' },
         { href: 'https://premier.ticketek.com.sg/shows/show.aspx?sh=HSR24', src: '/images/components/nav-stores.svg' },
@@ -27,7 +29,7 @@ const Home = () => {
         <div>
             <Main>
                 <Container>
-                    <div className='flex justify-center flex-wrap gap-20 mt-10 mb-10  '>
+                    <div className='flex  justify-center items-center flex-wrap gap-20 mt-10 mb-10'>
                         {links.map((link, index) => (
                             <Link key={index} href={link.href}>
                                 <Image
@@ -35,7 +37,7 @@ const Home = () => {
                                     alt='/'
                                     width={180}
                                     height={200}
-                                    className='rounded-md transition-transform duration-200 ease-in-out hover:scale-110'
+                                    className=' rounded-md transition-transform duration-200 ease-in-out hover:scale-110 mt-4'
                                 />
                             </Link>
                         ))}

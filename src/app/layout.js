@@ -18,7 +18,8 @@ export default function RootLayout({ children }) {
                 <meta name='twitter:description' content='페이지 설명' />
                 <meta name='twitter:image' content='http://www.mysite.com/article/article1.html' />
                 <meta name='twitter:domain' content='사이트 명' />
-                <link rel='shortcut icon' href='http://www.mysite.com/favicon.ico' />
+                <link rel='shortcut icon' href='/images/components/favicon.ico' />
+
                 <link
                     rel='stylesheet'
                     href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css'
