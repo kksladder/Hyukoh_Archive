@@ -7,7 +7,6 @@ import Link from 'next/link';
 
 const Home = () => {
     const canvasRef = useRef(null);
-    const [hoverPos, setHoverPos] = useState(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [hoveredIndex, setHoveredIndex] = useState(null);
 
@@ -29,26 +28,21 @@ const Home = () => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
 
-        // Canvas 크기 설정
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const blockSize = 30; // 화살표 패턴의 크기를 좀 더 크게
-        const arrowSize = 40; // 개별 화살표 크기도 좀 더 크게
+        const blockSize = 30;
+        const arrowSize = 40;
 
-        // 배경 패턴 그리기 함수
         const drawBackground = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 화면 전체를 커버할 수 있도록 범위 확장
             for (let x = -blockSize; x < canvas.width + blockSize; x += blockSize) {
                 for (let y = -blockSize; y < canvas.height + blockSize; y += blockSize) {
-                    // 화살표의 위치에 따라 기울기 계산
                     const distanceToMouse = Math.sqrt(
                         Math.pow(x - mousePosition.x, 2) + Math.pow(y - mousePosition.y, 2)
                     );
 
-                    // 마우스와의 거리에 따라 화살표 기울기 조절
                     const tiltFactor = Math.max(0, 1 - distanceToMouse / 500);
                     const tiltAngle = (tiltFactor * Math.PI) / 4;
 
@@ -62,7 +56,7 @@ const Home = () => {
                     ctx.lineTo(0, arrowSize);
                     ctx.closePath();
 
-                    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'; // 약간 투명도 조정
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
                     ctx.fill();
 
                     ctx.restore();
@@ -70,7 +64,6 @@ const Home = () => {
             }
         };
 
-        // 반복적인 렌더링
         const render = () => {
             drawBackground();
             requestAnimationFrame(render);
@@ -78,7 +71,6 @@ const Home = () => {
 
         render();
 
-        // 마우스 움직임 이벤트 리스너 추가
         const handleMouseMove = (e) => {
             setMousePosition({ x: e.clientX, y: e.clientY });
         };
@@ -91,37 +83,33 @@ const Home = () => {
         };
     }, [mousePosition]);
 
-    const handleMouseEnter = (index, event) => {
-        const rect = event.target.getBoundingClientRect();
-        setHoverPos({
-            x: rect.left + rect.width / 2,
-            y: rect.top + rect.height / 2,
-        });
+    const handleMouseEnter = (index) => {
         setHoveredIndex(index);
     };
 
     const handleMouseLeave = () => {
-        setHoverPos(null);
         setHoveredIndex(null);
     };
 
     return (
         <div
-            className='relative flex items-center justify-center bg-center w-full h-screen'
+            className='relative flex items-center justify-center min-h-screen bg-cover bg-center w-180 h-200'
             style={{
                 backgroundImage: "url('/images/components/bg.png')",
                 backgroundRepeat: 'no-repeat',
+                backgroundSize: '374px 388px',
+                backgroundPosition: 'center',
             }}
         >
             <canvas ref={canvasRef} className='absolute top-0 left-0 w-full h-full pointer-events-none z-0'></canvas>
 
             <Main>
                 <Container>
-                    <div className='flex justify-center items-center flex-wrap mt-auto mb-auto'>
+                    <div className='flex justify-center items-center flex-wrap gap-4 mt-auto mb-auto'>
                         {links.map((link, index) => (
                             <Link key={index} href={link.href}>
                                 <div
-                                    onMouseEnter={(event) => handleMouseEnter(index, event)}
+                                    onMouseEnter={() => handleMouseEnter(index)}
                                     onMouseLeave={handleMouseLeave}
                                     className='relative z-10'
                                 >
