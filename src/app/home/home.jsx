@@ -9,6 +9,7 @@ const Home = () => {
     const canvasRef = useRef(null);
     const [hoverPos, setHoverPos] = useState(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [hoveredIndex, setHoveredIndex] = useState(null);
 
     const links = [
         { href: 'https://youtu.be/Js67kofnQw0?si=qZ3Kw9L0YuRabPtT', src: '/images/components/AAA.jpg' },
@@ -32,15 +33,16 @@ const Home = () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const blockSize = 30; // 화살표 패턴의 크기
-        const arrowSize = 40; // 개별 화살표 크기
+        const blockSize = 30; // 화살표 패턴의 크기를 좀 더 크게
+        const arrowSize = 40; // 개별 화살표 크기도 좀 더 크게
 
         // 배경 패턴 그리기 함수
         const drawBackground = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            for (let x = 0; x < canvas.width; x += blockSize) {
-                for (let y = 0; y < canvas.height; y += blockSize) {
+            // 화면 전체를 커버할 수 있도록 범위 확장
+            for (let x = -blockSize; x < canvas.width + blockSize; x += blockSize) {
+                for (let y = -blockSize; y < canvas.height + blockSize; y += blockSize) {
                     // 화살표의 위치에 따라 기울기 계산
                     const distanceToMouse = Math.sqrt(
                         Math.pow(x - mousePosition.x, 2) + Math.pow(y - mousePosition.y, 2)
@@ -60,7 +62,7 @@ const Home = () => {
                     ctx.lineTo(0, arrowSize);
                     ctx.closePath();
 
-                    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.8)'; // 약간 투명도 조정
                     ctx.fill();
 
                     ctx.restore();
@@ -89,21 +91,23 @@ const Home = () => {
         };
     }, [mousePosition]);
 
-    const handleMouseEnter = (e) => {
-        const rect = e.target.getBoundingClientRect();
+    const handleMouseEnter = (index, event) => {
+        const rect = event.target.getBoundingClientRect();
         setHoverPos({
             x: rect.left + rect.width / 2,
             y: rect.top + rect.height / 2,
         });
+        setHoveredIndex(index);
     };
 
     const handleMouseLeave = () => {
         setHoverPos(null);
+        setHoveredIndex(null);
     };
 
     return (
         <div
-            className='relative flex items-center justify-center bg-center w-full h-full'
+            className='relative flex items-center justify-center bg-center w-full h-screen'
             style={{
                 backgroundImage: "url('/images/components/bg.png')",
                 backgroundRepeat: 'no-repeat',
@@ -113,11 +117,11 @@ const Home = () => {
 
             <Main>
                 <Container>
-                    <div className='flex justify-center items-center flex-wrap gap-20 mt-10 mb-10'>
+                    <div className='flex justify-center items-center flex-wrap mt-auto mb-auto'>
                         {links.map((link, index) => (
                             <Link key={index} href={link.href}>
                                 <div
-                                    onMouseEnter={handleMouseEnter}
+                                    onMouseEnter={(event) => handleMouseEnter(index, event)}
                                     onMouseLeave={handleMouseLeave}
                                     className='relative z-10'
                                 >
@@ -126,7 +130,8 @@ const Home = () => {
                                         alt='/'
                                         width={180}
                                         height={200}
-                                        className='rounded-md transition-transform duration-200 ease-in-out hover:scale-110 mt-4'
+                                        className={`rounded-none transition-transform duration-200 ease-in-out mt-4 
+                                            ${hoveredIndex === index ? 'hover:scale-110' : 'animate-spin-slow'}`}
                                     />
                                 </div>
                             </Link>
