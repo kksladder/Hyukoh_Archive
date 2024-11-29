@@ -26,7 +26,13 @@ const Home = () => {
     ];
 
     return (
-        <div>
+        <div
+            className='relative flex items-center justify-center bg-center w-100 h-100'
+            style={{
+                backgroundImage: "url('/images/components/bg.png')",
+                backgroundRepeat: 'no-repeat',
+            }}
+        >
             <Main>
                 <Container>
                     <div className='flex  justify-center items-center flex-wrap gap-20 mt-10 mb-10'>
