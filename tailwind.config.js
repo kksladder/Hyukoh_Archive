@@ -5,13 +5,16 @@ module.exports = {
         './src/components/**/*.{js,ts,jsx,tsx,mdx}',
         './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     ],
-
+    darkMode: 'class', // 다크 모드 설정 추가
     theme: {
         extend: {
             animation: {
                 'spin-slow': 'spin 15s linear infinite',
             },
+            backgroundColor: {
+                default: '#ffffff', // 기본 배경색 흰색으로 명시
+            },
         },
     },
-    // ... rest of your config
+    plugins: [], // 필요하다면 플러그인 추가 가능
 };
