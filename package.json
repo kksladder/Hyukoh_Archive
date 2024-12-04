@@ -2,12 +2,11 @@
     "name": "react",
     "version": "0.1.0",
     "private": true,
-    "scripts": {
-        "dev": "next dev --turbopack",
-        "build": "next build",
-        "start": "next start",
-        "lint": "next lint"
-    },
+   "scripts": {
+  "dev": "next dev --turbo=false",
+  "build": "next build",
+  "start": "next start"
+},
     "dependencies": {
         "@chakra-ui/next-js": "2.1.5",
         "@chakra-ui/react": "2.8.2",
