@@ -18,12 +18,12 @@ body {
     font-size: 17px;
     line-height: 1.5;
     font-family: 'Pretendard', sans-serif;
-    color: #1d1d1d;
+    /* color: #1d1d1d; */
     font-weight: 400;
 }
 
 a {
-    color: #1d1d1d;
+    /* color: #1d1d1d; */
     text-decoration: none;
 }
 a:active,
@@ -42,7 +42,7 @@ a:hover {
     left: 0;
     width: 138px;
     border: 1px solid #4ec53d;
-    background: #333;
+    /* background: #333; */
     text-align: center;
     opacity: 0;
 }
