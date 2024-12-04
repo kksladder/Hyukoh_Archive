@@ -30,8 +30,8 @@ const Home = () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const blockSize = 50;
-        const arrowSize = 35;
+        const blockSize = 30;
+        const arrowSize = 15;
 
         const drawBackground = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
