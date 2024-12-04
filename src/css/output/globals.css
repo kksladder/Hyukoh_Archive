@@ -290,10 +290,9 @@ legend {
     clear: both;
     content: '';
 }
-
 :root {
     --background: #ffffff;
-    --foreground: #171717;
+    --foreground: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -304,7 +303,8 @@ legend {
 }
 body {
     background-color: #ffffff !important;
-    color: #000000;
+    color: #000000 !important;
+    /* 다크 모드나 시스템 설정과 무관하게 흰 배경 강제 */
 }
 
 @media (prefers-color-scheme: light) {
