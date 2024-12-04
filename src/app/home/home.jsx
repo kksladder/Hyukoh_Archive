@@ -4,6 +4,7 @@ import { Container } from '@chakra-ui/layout';
 import Image from 'next/image';
 import Main from '@/components/layout/Main';
 import Link from 'next/link';
+
 const Home = () => {
     const canvasRef = useRef(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -107,7 +108,7 @@ const Home = () => {
                                         width={180}
                                         height={200}
                                         className={`rounded-none transition-transform duration-200 ease-in-out mt-4 
-                                            ${hoveredIndex === index ? 'hover:scale-110' : 'animate-spin-slow'}`}
+        ${hoveredIndex === index ? 'hover:scale-110' : 'animate-spin-slow'} lp-style`}
                                     />
                                 </div>
                             </Link>
