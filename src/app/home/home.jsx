@@ -1,35 +1,27 @@
 'use client';
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Container } from '@chakra-ui/layout';
 import Image from 'next/image';
 import Main from '@/components/layout/Main';
 import Link from 'next/link';
-
 const Home = () => {
     const canvasRef = useRef(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const [scrollPosition, setScrollPosition] = useState(0);
     const [hoveredIndex, setHoveredIndex] = useState(null);
 
-    const links = useMemo(
-        () => [
-            { href: 'https://youtu.be/Js67kofnQw0?si=qZ3Kw9L0YuRabPtT', src: '/images/components/AAA.jpg' },
-            { href: 'https://youtu.be/mNYHaQTpr-M?si=xlaMl3pAprHefbJl', src: '/images/components/love.jpg' },
-            { href: 'https://youtu.be/aKHbqm-D62Y?si=LEoZmiyZIcu4EdPh', src: '/images/components/24.jpg' },
-            { href: 'https://youtu.be/pC6tPEaAiYU?si=Wt1EgTr6gw8tmveb', src: '/images/components/23.jpg' },
-            { href: 'https://youtu.be/ECMc1SB60E0?si=1l99cEXJ3JHPKQU-', src: '/images/components/22.jpg' },
-            { href: 'https://youtu.be/hwSF28PG_Fo?si=lNRagcAwcGBOZTdG', src: '/images/components/pandabear.jpg' },
-            { href: 'https://youtu.be/IUoTjkS242c?si=_Y3pd_aJQ776sZLV', src: '/images/components/20.jpg' },
-            { href: 'https://lnk.to/aaa_album', src: '/images/components/nav-archive.svg' },
-            { href: 'https://youtu.be/Js67kofnQw0?si=z7yxFKk5GZZ_t4h2', src: '/images/components/nav-video.svg' },
-            {
-                href: 'https://premier.ticketek.com.sg/shows/show.aspx?sh=HSR24',
-                src: '/images/components/nav-stores.svg',
-            },
-            { href: 'https://www.instagram.com/hyukohofficial/', src: '/images/components/nav-contact.svg' },
-        ],
-        []
-    );
+    const links = [
+        { href: 'https://youtu.be/Js67kofnQw0?si=qZ3Kw9L0YuRabPtT', src: '/images/components/AAA.jpg' },
+        { href: 'https://youtu.be/mNYHaQTpr-M?si=xlaMl3pAprHefbJl', src: '/images/components/love.jpg' },
+        { href: 'https://youtu.be/aKHbqm-D62Y?si=LEoZmiyZIcu4EdPh', src: '/images/components/24.jpg' },
+        { href: 'https://youtu.be/pC6tPEaAiYU?si=Wt1EgTr6gw8tmveb', src: '/images/components/23.jpg' },
+        { href: 'https://youtu.be/ECMc1SB60E0?si=1l99cEXJ3JHPKQU-', src: '/images/components/22.jpg' },
+        { href: 'https://youtu.be/hwSF28PG_Fo?si=lNRagcAwcGBOZTdG', src: '/images/components/pandabear.jpg' },
+        { href: 'https://youtu.be/IUoTjkS242c?si=_Y3pd_aJQ776sZLV', src: '/images/components/20.jpg' },
+        { href: 'https://lnk.to/aaa_album', src: '/images/components/nav-archive.svg' },
+        { href: 'https://youtu.be/Js67kofnQw0?si=z7yxFKk5GZZ_t4h2', src: '/images/components/nav-video.svg' },
+        { href: 'https://premier.ticketek.com.sg/shows/show.aspx?sh=HSR24', src: '/images/components/nav-stores.svg' },
+        { href: 'https://www.instagram.com/hyukohofficial/', src: '/images/components/nav-contact.svg' },
+    ];
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -41,45 +33,30 @@ const Home = () => {
         const blockSize = 50;
         const arrowSize = 35;
 
-        const calculateArrowAngle = (x, y, targetX, targetY) => {
-            return Math.atan2(targetY - y, targetX - x);
-        };
-
         const drawBackground = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            links.forEach((link, index) => {
-                const imageElement = document.querySelector(`[data-index="${index}"]`);
-                if (!imageElement) return;
+            for (let x = -blockSize; x < canvas.width + blockSize; x += blockSize) {
+                for (let y = -blockSize; y < canvas.height + blockSize; y += blockSize) {
+                    // 랜덤한 변화를 추가하기 위해 시간과 랜덤 값 사용
+                    const randomAngle = Math.sin(Date.now() / 1000 + x * 0.1 + y * 0.1) * Math.PI;
 
-                const rect = imageElement.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
+                    ctx.save();
+                    ctx.translate(x, y);
+                    ctx.rotate(randomAngle);
 
-                for (let x = -blockSize; x < canvas.width + blockSize; x += blockSize) {
-                    for (let y = -blockSize; y < canvas.height + blockSize; y += blockSize) {
-                        const distanceToImage = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(arrowSize, arrowSize / 2);
+                    ctx.lineTo(0, arrowSize);
+                    ctx.closePath();
 
-                        const tiltFactor = Math.max(0, 1 - distanceToImage / 500);
-                        const tiltAngle = calculateArrowAngle(x, y, centerX, centerY);
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                    ctx.fill();
 
-                        ctx.save();
-                        ctx.translate(x, y);
-                        ctx.rotate(tiltAngle);
-
-                        ctx.beginPath();
-                        ctx.moveTo(0, 0);
-                        ctx.lineTo(arrowSize, arrowSize / 2);
-                        ctx.lineTo(0, arrowSize);
-                        ctx.closePath();
-
-                        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-                        ctx.fill();
-
-                        ctx.restore();
-                    }
+                    ctx.restore();
                 }
-            });
+            }
         };
 
         const render = () => {
@@ -89,16 +66,10 @@ const Home = () => {
 
         render();
 
-        const handleScroll = () => {
-            setScrollPosition(window.scrollY);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-
         return () => {
-            window.removeEventListener('scroll', handleScroll);
+            cancelAnimationFrame(render);
         };
-    }, [links, scrollPosition]);
+    }, []);
 
     const handleMouseEnter = (index) => {
         setHoveredIndex(index);
@@ -128,7 +99,6 @@ const Home = () => {
                                 <div
                                     onMouseEnter={() => handleMouseEnter(index)}
                                     onMouseLeave={handleMouseLeave}
-                                    data-index={index}
                                     className='relative z-10'
                                 >
                                     <Image
@@ -148,5 +118,4 @@ const Home = () => {
         </div>
     );
 };
-
 export default Home;
