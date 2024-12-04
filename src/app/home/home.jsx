@@ -8,6 +8,7 @@ import Link from 'next/link';
 const Home = () => {
     const canvasRef = useRef(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [scrollPosition, setScrollPosition] = useState(0);
     const [hoveredIndex, setHoveredIndex] = useState(null);
 
     const links = [
@@ -31,37 +32,48 @@ const Home = () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const blockSize = 40;
-        const arrowSize = 40;
+        const blockSize = 50;
+        const arrowSize = 35;
+
+        const calculateArrowAngle = (x, y, targetX, targetY) => {
+            return Math.atan2(targetY - y, targetX - x);
+        };
 
         const drawBackground = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            for (let x = -blockSize; x < canvas.width + blockSize; x += blockSize) {
-                for (let y = -blockSize; y < canvas.height + blockSize; y += blockSize) {
-                    const distanceToMouse = Math.sqrt(
-                        Math.pow(x - mousePosition.x, 2) + Math.pow(y - mousePosition.y, 2)
-                    );
+            links.forEach((link, index) => {
+                const imageElement = document.querySelector(`[data-index="${index}"]`);
+                if (!imageElement) return;
 
-                    const tiltFactor = Math.max(0, 1 - distanceToMouse / 500);
-                    const tiltAngle = (tiltFactor * Math.PI) / 4;
+                const rect = imageElement.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
 
-                    ctx.save();
-                    ctx.translate(x, y);
-                    ctx.rotate(tiltAngle);
+                for (let x = -blockSize; x < canvas.width + blockSize; x += blockSize) {
+                    for (let y = -blockSize; y < canvas.height + blockSize; y += blockSize) {
+                        const distanceToImage = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
 
-                    ctx.beginPath();
-                    ctx.moveTo(0, 0);
-                    ctx.lineTo(arrowSize, arrowSize / 2);
-                    ctx.lineTo(0, arrowSize);
-                    ctx.closePath();
+                        const tiltFactor = Math.max(0, 1 - distanceToImage / 500);
+                        const tiltAngle = calculateArrowAngle(x, y, centerX, centerY);
 
-                    ctx.fillStyle = 'rgba(0.7)';
-                    ctx.fill();
+                        ctx.save();
+                        ctx.translate(x, y);
+                        ctx.rotate(tiltAngle);
 
-                    ctx.restore();
+                        ctx.beginPath();
+                        ctx.moveTo(0, 0);
+                        ctx.lineTo(arrowSize, arrowSize / 2);
+                        ctx.lineTo(0, arrowSize);
+                        ctx.closePath();
+
+                        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                        ctx.fill();
+
+                        ctx.restore();
+                    }
                 }
-            }
+            });
         };
 
         const render = () => {
@@ -71,17 +83,16 @@ const Home = () => {
 
         render();
 
-        const handleMouseMove = (e) => {
-            setMousePosition({ x: e.clientX, y: e.clientY });
+        const handleScroll = () => {
+            setScrollPosition(window.scrollY);
         };
 
-        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('scroll', handleScroll);
 
         return () => {
-            cancelAnimationFrame(render);
-            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('scroll', handleScroll);
         };
-    }, [mousePosition]);
+    }, [links, scrollPosition]);
 
     const handleMouseEnter = (index) => {
         setHoveredIndex(index);
@@ -111,6 +122,7 @@ const Home = () => {
                                 <div
                                     onMouseEnter={() => handleMouseEnter(index)}
                                     onMouseLeave={handleMouseLeave}
+                                    data-index={index}
                                     className='relative z-10'
                                 >
                                     <Image
@@ -119,7 +131,7 @@ const Home = () => {
                                         width={180}
                                         height={200}
                                         className={`rounded-none transition-transform duration-200 ease-in-out mt-4 
-                                                ${hoveredIndex === index ? 'hover:scale-110' : 'animate-spin-slow'}`}
+                                            ${hoveredIndex === index ? 'hover:scale-110' : 'animate-spin-slow'}`}
                                     />
                                 </div>
                             </Link>
