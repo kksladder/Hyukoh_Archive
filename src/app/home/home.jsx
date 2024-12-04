@@ -31,7 +31,7 @@ const Home = () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        const blockSize = 80;
+        const blockSize = 40;
         const arrowSize = 40;
 
         const drawBackground = () => {
