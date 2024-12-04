@@ -118,8 +118,8 @@ const Home = () => {
                                         alt='/'
                                         width={180}
                                         height={200}
-                                        className={`transition-transform duration-200 ease-in-out mt-4 
-                                            ${hoveredIndex === index ? 'hover:scale-110' : 'animate-spin-slow'}`}
+                                        className={`rounded-none transition-transform duration-200 ease-in-out mt-4 
+                                                ${hoveredIndex === index ? 'hover:scale-110' : 'animate-spin-slow'}`}
                                     />
                                 </div>
                             </Link>

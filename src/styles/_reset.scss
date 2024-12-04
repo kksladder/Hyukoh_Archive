@@ -1,5 +1,5 @@
 $white: #ffffff !default;
-// $black: #000000 !default;
+$black: #000000 !default;
 
 // font-style
 $font-family-base: 'Pretendard', sans-serif !default;
@@ -44,7 +44,7 @@ a {
     left: 0;
     width: 138px;
     border: 1px solid #4ec53d;
-    // background: #333;
+    background: #333;
     text-align: center;
     opacity: 0;
 }
