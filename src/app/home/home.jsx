@@ -56,7 +56,7 @@ const Home = () => {
                     ctx.lineTo(0, arrowSize);
                     ctx.closePath();
 
-                    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                    ctx.fillStyle = 'rgba(0.7)';
                     ctx.fill();
 
                     ctx.restore();
