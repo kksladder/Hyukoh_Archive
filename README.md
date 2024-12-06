@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Hyukoh_Archive
 
-## Getting Started
+혁오밴드 10주년을 맞이하여 그동안 발매했던 앨범을 아카이빙 한 페이지입니다. 2024년 9월 한국을 시작으로 현재 아시아 투어를 진행 중입니다.
 
-First, run the development server:
+## AAA 앨범 소개
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **AAA**는 4년 만에 발표된 혁오밴드의 정규 3집 앨범입니다. 
+- 앨범 발매 전에는 어떠한 정보도 공개되지 않았으나, 싱글 "Young Man"을 선발매하며 기대를 모았습니다.
+- 2024년 7월 10일, AAA 전곡이 발표되었습니다.
+- 대만에서 큰 인기를 얻고 있는 **Sunset Rollercoaster**와 합작한 앨범으로, 제작 기간은 약 1년이 걸렸습니다.
+- 두 밴드의 잼(Jam) 형식의 연주로 인해 많은 사랑을 받고 있습니다.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 앨범 발매 형식
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **AAA_CD**: 네 가지 커버로 발매되었으며, 구매 시 랜덤으로 제공됩니다.
+- **AAA_LP**: 큰 인기를 끌며 두 차례 재발매되어 팬들이 더 쉽게 구매할 수 있도록 제작되었습니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 페이지 디자인 설명
 
-## Learn More
+- 앨범 커버에 회전 애니메이션 효과를 추가하여 자유분방한 혁오밴드의 이미지를 표현하였습니다.
+- 화살표로 음파 파도를 시각화하여 잔잔한 음악의 분위기를 느낄 수 있도록 하였습니다.
+- 파도에 누운 듯한 느낌으로 혁오의 음악을 감상할 수 있다는 메시지를 담았습니다.
+- 앨범 커버를 클릭하면 각각의 타이틀 곡으로 연결되어 감상할 수 있습니다.
+- 아시아 투어 굿즈에 대한 정보도 포함되어 있습니다.
 
-To learn more about Next.js, take a look at the following resources:
+## 기술 스택
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Frontend:
+- **Next.js** (React 기반 프레임워크)
+- **Tailwind CSS** (스타일링)
+- **Chakra UI** (스타일링)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Deployment:
+- **Vercel**을 통해 배포된 Hyukoh_AAA 페이지입니다.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[Hyukoh_Archive 페이지 보기](https://react-sepia-five-30.vercel.app/)
