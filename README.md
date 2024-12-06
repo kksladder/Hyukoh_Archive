@@ -30,6 +30,7 @@
 - **Tailwind CSS** (스타일링)
 - **Chakra UI** (스타일링)
 
+
 ### Deployment:
 - **Vercel**을 통해 배포된 Hyukoh_AAA 페이지입니다.
 
