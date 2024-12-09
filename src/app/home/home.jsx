@@ -33,6 +33,7 @@ const Home = () => {
         { href: 'https://www.instagram.com/hyukohofficial/', src: '/images/components/nav-contact.svg' },
     ];
 
+    
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
@@ -196,7 +197,7 @@ const Home = () => {
                     navigation
                     pagination={{ clickable: true }}
                     autoplay={{
-                        delay: 2000,
+                        delay: 1500,
                         disableOnInteraction: false,
                     }}
                     loop={true}
@@ -214,24 +215,6 @@ const Home = () => {
                         </SwiperSlide>
                     ))}
                 </Swiper>
-            </div>
-
-            <div className='w-full h-32 relative overflow-hidden '>
-                {fallenArrows.map((arrow, index) => (
-                    <div
-                        key={index}
-                        className='absolute'
-                        style={{
-                            left: `${arrow.x}px`,
-                            bottom: '0',
-                            transform: `rotate(${arrow.angle}rad)`,
-                            width: '15px',
-                            height: '15px',
-                            backgroundColor: 'black',
-                            clipPath: 'polygon(0% 0%, 100% 50%, 0% 100%)',
-                        }}
-                    />
-                ))}
             </div>
         </div>
     );
