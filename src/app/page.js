@@ -5,6 +5,7 @@ import { Container } from '@chakra-ui/layout';
 import Image from 'next/image';
 import IntroSwiper from './home/intro';
 import Home from './home/home';
+import '@/styles/globals.scss';
 
 export default function Page() {
     return (

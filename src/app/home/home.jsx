@@ -33,7 +33,6 @@ const Home = () => {
         { href: 'https://www.instagram.com/hyukohofficial/', src: '/images/components/nav-contact.svg' },
     ];
 
-    
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
@@ -122,7 +121,7 @@ const Home = () => {
     };
 
     return (
-        <div className='relative flex flex-col items-center justify-start min-h-screen overflow-y-auto'>
+        <div className='relative flex flex-col items-center justify-start min-h-screen overflow-hidden'>
             <canvas
                 ref={canvasRef}
                 className={`fixed top-0 left-0 w-full h-full pointer-events-none z-0 transition-opacity duration-500 ${

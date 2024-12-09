@@ -1,10 +1,4 @@
-.scroll-image {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity $animation-duration $animation-timing, transform $animation-duration $animation-timing;
-
-    &.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+// .image-gallery {
+//     width: 300px;
+//     height: 300px;
+// }
