@@ -150,6 +150,133 @@ const Home = () => {
                     marginRight: '-71rem',
                 }}
             />
+            <Image
+                src='/images/components/paint.png'
+                alt='/'
+                width={300}
+                height={200}
+                className='animate-pulse'
+                style={{
+                    position: 'absolute',
+                    marginTop: '56rem',
+                    marginRight: '75rem',
+                }}
+            />
+            <Image
+                src='/images/components/wow2.png'
+                alt='/'
+                width={500}
+                height={300}
+                className='animate-spin'
+                style={{
+                    position: 'absolute',
+                    marginTop: '40rem',
+                    marginRight: '-40rem',
+                }}
+            />
+            <Image
+                src='/images/components/sumin3.png'
+                alt='/'
+                width={400}
+                height={300}
+                className='animate-bounce'
+                style={{
+                    position: 'absolute',
+                    marginTop: '33rem',
+                    marginRight: '-85rem',
+                }}
+            />
+            <Image
+                src='/images/components/injea.png'
+                alt='/'
+                width={400}
+                height={300}
+                className='animate-ping'
+                style={{
+                    position: 'absolute',
+                    marginTop: '72rem',
+                    marginRight: '24rem',
+                }}
+            />
+            <Image
+                src='/images/components/band2.png'
+                alt='/'
+                width={400}
+                height={300}
+                style={{
+                    position: 'absolute',
+                    marginTop: '75rem',
+                    marginRight: '-18rem',
+                }}
+            />
+            <Image
+                src='/images/components/ma.png'
+                alt='/'
+                width={400}
+                height={300}
+                className='absolute animate-wiggle-slow'
+                style={{
+                    marginTop: '97rem',
+                    marginRight: '65rem',
+                }}
+            />
+            <Image
+                src='/images/components/sumin.png'
+                alt='/'
+                width={400}
+                height={300}
+                className='absolute animate-wiggle-slow'
+                style={{
+                    marginTop: '109rem',
+                    marginRight: '66rem',
+                }}
+            />
+            <Image
+                src='/images/components/scared.png'
+                alt='/'
+                width={700}
+                height={300}
+                className='absolute animate-shake'
+                style={{
+                    marginTop: '113rem',
+                    marginRight: '50rem',
+                }}
+            />
+
+            <Image
+                src='/images/components/bat.png'
+                alt='/'
+                width={500}
+                height={300}
+                className='absolute'
+                style={{
+                    marginTop: '107rem',
+                    marginRight: '-60rem',
+                }}
+            />
+            <Image
+                src='/images/components/wow.png'
+                alt='/'
+                width={500}
+                height={300}
+                className='absolute animate-excited'
+                style={{
+                    marginTop: '107rem',
+                    marginRight: '-60rem',
+                }}
+            />
+            <Image
+                src='/images/components/up.png'
+                alt='/'
+                width={500}
+                height={300}
+                className='absolute animate-powerup'
+                style={{
+                    marginTop: '75rem',
+                    marginRight: '-65rem',
+                }}
+            />
+
             <Main>
                 <Container>
                     <div className='flex justify-center items-center flex-wrap gap-20 mt-20 mb-8'>
