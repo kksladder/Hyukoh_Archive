@@ -261,7 +261,7 @@ const Home = () => {
                 height={300}
                 className='absolute animate-excited'
                 style={{
-                    marginTop: '107rem',
+                    marginTop: '118rem',
                     marginRight: '-60rem',
                 }}
             />
