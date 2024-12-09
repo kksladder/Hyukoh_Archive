@@ -14,6 +14,7 @@ module.exports = {
                 shake: 'shake 0.5s ease-in-out infinite',
                 excited: 'excited 1s ease-in-out infinite',
                 powerup: 'powerup 1s ease-in-out infinite',
+                cleaning: 'cleaning 1s ease-in-out infinite',
             },
             keyframes: {
                 wiggle: {
@@ -25,6 +26,13 @@ module.exports = {
                     '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-2px)' },
                     '20%, 40%, 60%, 80%': { transform: 'translateX(2px)' },
                 },
+                cleaning: {
+                    '0%, 100%': { transform: 'translateX(0) rotate(0deg)' },
+                    '25%': { transform: 'translateX(10px) rotate(5deg)' },
+                    '50%': { transform: 'translateX(-5px) rotate(-5deg)' },
+                    '75%': { transform: 'translateX(5px) rotate(5deg)' },
+                },
+
                 excited: {
                     '0%, 100%': {
                         transform: 'translateY(0) rotate(0deg)',

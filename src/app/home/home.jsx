@@ -155,10 +155,10 @@ const Home = () => {
                 alt='/'
                 width={300}
                 height={200}
-                className='animate-pulse'
+                className='absolute animate-cleaning'
                 style={{
                     position: 'absolute',
-                    marginTop: '56rem',
+                    marginTop: '60rem',
                     marginRight: '75rem',
                 }}
             />
@@ -191,10 +191,10 @@ const Home = () => {
                 alt='/'
                 width={400}
                 height={300}
-                className='animate-ping'
+                className='absolute animate-shake'
                 style={{
                     position: 'absolute',
-                    marginTop: '72rem',
+                    marginTop: '75rem',
                     marginRight: '24rem',
                 }}
             />
@@ -205,7 +205,7 @@ const Home = () => {
                 height={300}
                 style={{
                     position: 'absolute',
-                    marginTop: '75rem',
+                    marginTop: '82rem',
                     marginRight: '-18rem',
                 }}
             />
@@ -217,7 +217,7 @@ const Home = () => {
                 className='absolute animate-wiggle-slow'
                 style={{
                     marginTop: '97rem',
-                    marginRight: '65rem',
+                    marginRight: '88rem',
                 }}
             />
             <Image
@@ -228,7 +228,7 @@ const Home = () => {
                 className='absolute animate-wiggle-slow'
                 style={{
                     marginTop: '109rem',
-                    marginRight: '66rem',
+                    marginRight: '75rem',
                 }}
             />
             <Image
@@ -238,8 +238,8 @@ const Home = () => {
                 height={300}
                 className='absolute animate-shake'
                 style={{
-                    marginTop: '113rem',
-                    marginRight: '50rem',
+                    marginTop: '120rem',
+                    marginRight: '51rem',
                 }}
             />
 
@@ -251,7 +251,7 @@ const Home = () => {
                 className='absolute'
                 style={{
                     marginTop: '107rem',
-                    marginRight: '-60rem',
+                    marginRight: '-72rem',
                 }}
             />
             <Image
@@ -272,7 +272,7 @@ const Home = () => {
                 height={300}
                 className='absolute animate-powerup'
                 style={{
-                    marginTop: '75rem',
+                    marginTop: '80rem',
                     marginRight: '-65rem',
                 }}
             />
