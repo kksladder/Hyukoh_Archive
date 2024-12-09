@@ -19,12 +19,10 @@ export default function RootLayout({ children }) {
                 <meta name='twitter:image' content='http://www.mysite.com/article/article1.html' />
                 <meta name='twitter:domain' content='사이트 명' />
                 <link rel='shortcut icon' href='/images/components/favicon.ico' />
-
                 <link
                     rel='stylesheet'
                     href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css'
                 />
-                <link rel='../styles/components/index.html' href='../styles/components/_scroll-animation.scss' />
             </head>
             <body>
                 <Providers>
@@ -34,7 +32,6 @@ export default function RootLayout({ children }) {
                     </div>
                     <div id='wrap' className='min-h-svh flex flex-col'>
                         {children}
-                        {/* <img src='/images/components/sumin2.png' alt='Sumin2' className='animated-image' /> */}
                     </div>
                 </Providers>
             </body>

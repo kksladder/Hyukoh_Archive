@@ -6,8 +6,6 @@ import Main from '@/components/layout/Main';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-
-// Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -50,24 +48,19 @@ const Home = () => {
 
         const drawBackground = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
             for (let x = -blockSize; x < canvas.width + blockSize; x += blockSize) {
                 for (let y = -blockSize; y < canvas.height + blockSize; y += blockSize) {
                     const randomAngle = Math.sin(Date.now() / 1000 + x * 0.1 + y * 0.1) * Math.PI;
-
                     ctx.save();
                     ctx.translate(x, y);
                     ctx.rotate(randomAngle);
-
                     ctx.beginPath();
                     ctx.moveTo(0, 0);
                     ctx.lineTo(arrowSize, arrowSize / 2);
                     ctx.lineTo(0, arrowSize);
                     ctx.closePath();
-
                     ctx.fillStyle = 'rgba(0, 0, 0, 1)';
                     ctx.fill();
-
                     ctx.restore();
                 }
             }
@@ -85,7 +78,7 @@ const Home = () => {
         };
 
         const render = () => {
-            if (!isSecondPage) drawBackground();
+            drawBackground();
             requestAnimationFrame(render);
         };
 
@@ -97,7 +90,7 @@ const Home = () => {
             cancelAnimationFrame(render);
             clearInterval(dropInterval);
         };
-    }, [isSecondPage]);
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -106,7 +99,6 @@ const Home = () => {
         };
 
         window.addEventListener('scroll', handleScroll);
-
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
@@ -124,11 +116,40 @@ const Home = () => {
         <div className='relative flex flex-col items-center justify-start min-h-screen overflow-hidden'>
             <canvas
                 ref={canvasRef}
-                className={`fixed top-0 left-0 w-full h-full pointer-events-none z-0 transition-opacity duration-500 ${
-                    isSecondPage ? 'opacity-0' : 'opacity-100'
-                }`}
+                className='fixed top-0 left-0 w-full h-full pointer-events-none z-0'
+                style={{ position: 'fixed', top: 0, left: 0 }}
             ></canvas>
-
+            <Image
+                src='/images/components/sumin2.png'
+                alt='/'
+                width={550}
+                height={200}
+                className='absolute left-[-143px] top-96 animate-bounce'
+            />
+            <Image
+                src='/images/components/cut.png'
+                alt='/'
+                width={400}
+                height={200}
+                className='absolute animate-spin-slow'
+                style={{
+                    position: 'absolute',
+                    marginTop: '-5rem',
+                    marginRight: '-26rem',
+                }}
+            />
+            <Image
+                src='/images/components/hyukohmain.png'
+                alt='/'
+                width={550}
+                height={200}
+                className='absolute'
+                style={{
+                    position: 'absolute',
+                    marginTop: '23rem',
+                    marginRight: '-71rem',
+                }}
+            />
             <Main>
                 <Container>
                     <div className='flex justify-center items-center flex-wrap gap-20 mt-20 mb-8'>
@@ -154,12 +175,23 @@ const Home = () => {
                     </div>
                 </Container>
             </Main>
-
             <div
                 className={`w-full h-screen flex justify-around items-center transition-colors duration-500 ${
                     isSecondPage ? 'bg-black' : 'bg-transparent'
                 }`}
             >
+                <Image
+                    src='/images/components/joje.png'
+                    alt='/'
+                    width={400}
+                    height={200}
+                    className='absolute'
+                    style={{
+                        position: 'absolute',
+                        marginBottom: '71rem',
+                        marginRight: '42rem',
+                    }}
+                />
                 <Image src='/images/components/AAA.jpg' alt='AAA' width={500} height={500} />
                 <ul className='font-bold text-white w-80'>
                     {[
@@ -187,14 +219,11 @@ const Home = () => {
                     ))}
                 </ul>
             </div>
-
             <div className='w-full h-screen flex items-center justify-center'>
                 <Swiper
-                    modules={[Navigation, Pagination, Autoplay]}
+                    modules={[Autoplay]}
                     spaceBetween={30}
                     slidesPerView={1}
-                    navigation
-                    pagination={{ clickable: true }}
                     autoplay={{
                         delay: 1500,
                         disableOnInteraction: false,
