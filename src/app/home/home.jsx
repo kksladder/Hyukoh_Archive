@@ -131,7 +131,7 @@ const Home = () => {
                 alt='/'
                 width={400}
                 height={200}
-                className='absolute animate-spin-slow'
+                className='absolute'
                 style={{
                     position: 'absolute',
                     marginTop: '-5rem',
@@ -167,25 +167,14 @@ const Home = () => {
                 alt='/'
                 width={500}
                 height={300}
-                className='animate-spin'
+                className='animate-spin-slow'
                 style={{
                     position: 'absolute',
                     marginTop: '40rem',
                     marginRight: '-40rem',
                 }}
             />
-            <Image
-                src='/images/components/sumin3.png'
-                alt='/'
-                width={400}
-                height={300}
-                className='animate-bounce'
-                style={{
-                    position: 'absolute',
-                    marginTop: '33rem',
-                    marginRight: '-85rem',
-                }}
-            />
+
             <Image
                 src='/images/components/injea.png'
                 alt='/'
@@ -214,7 +203,7 @@ const Home = () => {
                 alt='/'
                 width={400}
                 height={300}
-                className='absolute animate-wiggle-slow'
+                className='absolute'
                 style={{
                     marginTop: '97rem',
                     marginRight: '88rem',

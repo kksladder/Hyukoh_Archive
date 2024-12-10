@@ -10,10 +10,10 @@ module.exports = {
         extend: {
             animation: {
                 'spin-slow': 'spin 4s linear infinite',
-                'wiggle-slow': 'wiggle 1s ease-in-out infinite',
+                'wiggle-slow': 'wiggle 2s ease-in-out infinite',
                 shake: 'shake 0.5s ease-in-out infinite',
                 excited: 'excited 1s ease-in-out infinite',
-                powerup: 'powerup 1s ease-in-out infinite',
+                powerup: 'powerup 3s ease-in-out infinite',
                 cleaning: 'cleaning 1s ease-in-out infinite',
             },
             keyframes: {
