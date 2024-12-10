@@ -147,7 +147,7 @@ const Home = () => {
                 style={{
                     position: 'absolute',
                     marginTop: '23rem',
-                    marginRight: '-71rem',
+                    marginRight: '-87rem',
                 }}
             />
             <Image
@@ -305,7 +305,7 @@ const Home = () => {
                     style={{
                         position: 'absolute',
                         marginBottom: '71rem',
-                        marginRight: '42rem',
+                        marginRight: '50rem',
                     }}
                 />
                 <Image src='/images/components/AAA.jpg' alt='AAA' width={500} height={500} />
