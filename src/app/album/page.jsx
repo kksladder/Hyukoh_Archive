@@ -1,174 +1,117 @@
-// // app/data/albums.js
-// export const albums = [
-//   {
-//     id: "AAA",
-//     title: "Young Man",
-//     imageUrl: "/images/components/AAA.jpg",
-//     releaseDate: "2024",
-//     type: "Anniversary Edition"
-//   },
+'use client'; // Ensure this is the first line
 
-// ];
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import { Autoplay } from 'swiper/modules';
+import './AlbumPage.scss';
 
-// // app/components/Header.jsx
-// export default function Header({ showBack = false, onBack }) {
-//   return (
-//     <header className="fixed w-full top-0 z-50 bg-black/90 backdrop-blur">
-//       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center">
-//         {showBack && (
-//           <button
-//             onClick={onBack}
-//             className="mr-4 hover:text-gray-300"
-//           >
-//             ←
-//           </button>
-//         )}
-//         <h1 className="text-2xl font-bold tracking-wider">ODESZA</h1>
-//         <div className="ml-auto">
-//           <button className="hover:text-gray-300">
-//             Login
-//           </button>
-//         </div>
-//       </div>
-//     </header>
-//   );
-// }
+const AlbumPage = () => {
+    const tracks = [
+        { num: '1', title: 'Kite War', time: '5:56' },
+        { num: '2', title: 'Y', time: '5:42' },
+        { num: '3', title: 'Antenna', time: '3:24' },
+        { num: '4', title: 'Glue', time: '4:20' },
+        { num: '5', title: 'Young Man', time: '4:17' },
+        { num: '6', title: 'Do Nothing', time: '3:46' },
+        { num: '7', title: 'Aaaannnnteeeeennnaaaaaa', time: '6:50' },
+        { num: '8', title: '2F 年轻人', time: '5:09' },
+    ];
 
-// // app/album/page.jsx
-// import Link from 'next/link';
-// // import { albums } from '../data/albums';
-// // import Header from '../components/Header';
+    const [typedTracks, setTypedTracks] = useState([]);
+    const [cursorVisible, setCursorVisible] = useState(true);
 
-// export default function AlbumList() {
-//   return (
-//     <div className="min-h-screen bg-black text-white">
-//       <Header />
+    useEffect(() => {
+        const typeTracks = async () => {
+            for (const track of tracks) {
+                let typedTitle = '';
+                for (let i = 0; i < track.title.length; i++) {
+                    typedTitle += track.title[i];
+                    setTypedTracks((prevTracks) => {
+                        const updatedTracks = [...prevTracks];
+                        const trackIndex = updatedTracks.findIndex((t) => t.num === track.num);
 
-//       <main className="pt-20 pb-12 px-4">
-//         <div className="max-w-7xl mx-auto">
-//           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-//             {albums.map((album) => (
-//               <Link
-//                 key={album.id}
-//                 href={`/album/${album.id}`}
-//                 className="group relative aspect-square bg-gray-900 overflow-hidden rounded-lg"
-//               >
-//                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60 opacity-0 group-hover:opacity-100 transition-opacity z-10" />
-//                 <div className="relative w-full h-full">
-//                   <div className="absolute inset-0 bg-gray-800" />
-//                 </div>
-//                 <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-4 group-hover:translate-y-0 transition-transform z-20">
-//                   <h3 className="text-sm font-medium line-clamp-2">{album.title}</h3>
-//                   {album.releaseDate && (
-//                     <p className="text-xs text-gray-300 mt-1">{album.releaseDate}</p>
-//                   )}
-//                   {album.type && (
-//                     <p className="text-xs text-gray-400">{album.type}</p>
-//                   )}
-//                 </div>
-//               </Link>
-//             ))}
-//           </div>
-//         </div>
-//       </main>
-//     </div>
-//   );
-// }
+                        if (trackIndex !== -1) {
+                            updatedTracks[trackIndex] = { ...track, title: typedTitle };
+                        } else {
+                            updatedTracks.push({ ...track, title: typedTitle });
+                        }
 
-// // app/album/[id]/page.jsx
-// 'use client';
+                        return updatedTracks;
+                    });
+                    await new Promise((resolve) => setTimeout(resolve, 100));
+                }
+                setCursorVisible(false); // Hide cursor after typing
+                await new Promise((resolve) => setTimeout(resolve, 500));
+            }
+        };
+        typeTracks();
+    }, []);
 
-// import { useRouter } from 'next/navigation';
-// import { useState, useEffect } from 'react';
-// import { albums } from '../../data/albums';
-// import Header from '../../components/Header';
+    return (
+        <div className='min-h-screen bg-black text-white flex flex-col items-center py-12'>
+            <Link href='/' className='absolute top-4 left-4 text-white hover:text-gray-300'>
+                ← Back to AAA
+            </Link>
 
-// export default function AlbumDetail({ params }) {
-//   const router = useRouter();
-//   const { id } = params;
-//   const [album, setAlbum] = useState(null);
+            <div className='flex flex-col md:flex-row items-center justify-center space-x-8 w-full max-w-4xl'>
+                <Swiper
+                    className='w-full max-w-[500px] h-[500px]'
+                    spaceBetween={50}
+                    slidesPerView={1}
+                    modules={[Autoplay]}
+                    autoplay={{
+                        delay: 1500,
+                        disableOnInteraction: false,
+                    }}
+                    loop={true}
+                >
+                    {[1, 2, 3, 4, 5].map((num) => (
+                        <SwiperSlide key={num}>
+                            <Image
+                                src={`/images/components/1-${num}.png`}
+                                alt={`LP ${num}`}
+                                width={500}
+                                height={500}
+                                className='w-full h-auto items-center mt-16'
+                            />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
 
-//   useEffect(() => {
-//     const foundAlbum = albums.find(a => a.id === id);
-//     if (foundAlbum) {
-//       setAlbum(foundAlbum);
-//     }
-//   }, [id]);
+                <div className='w-full max-w-md'>
+                    <h1 className='text-3xl font-bold mb-4'>AAA Album</h1>
 
-//   if (!album) {
-//     return (
-//       <div className="min-h-screen bg-black text-white flex items-center justify-center">
-//         Loading...
-//       </div>
-//     );
-//   }
+                    <div className='bg-gray-900 p-6 rounded-lg'>
+                        <h2 className='text-2xl font-semibold mb-4'>Track List</h2>
+                        <ul>
+                            {typedTracks.map((track, index) => (
+                                <li
+                                    key={index}
+                                    className='flex justify-between items-center py-3 border-b border-gray-700 last:border-b-0'
+                                >
+                                    <span className='font-medium text-gray-300'>{track.num}</span>
+                                    <span className='flex-grow px-4 track-title'>
+                                        {track.title.split('').map((char, i) => (
+                                            <span key={i} className='inline-block typing-effect relative'>
+                                                {char}
+                                                {i === track.title.length - 1 && cursorVisible && (
+                                                    <span className='cursor'>|</span>
+                                                )}
+                                            </span>
+                                        ))}
+                                    </span>
+                                    <span className='text-gray-400'>{track.time}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
 
-//   return (
-//     <div className="min-h-screen bg-black text-white">
-//       <Header showBack={true} onBack={() => router.back()} />
-
-//       <main className="pt-20 pb-12 px-4">
-//         <div className="max-w-7xl mx-auto">
-//           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-//             <div className="relative aspect-square bg-gray-900 rounded-lg overflow-hidden">
-//               <div className="absolute inset-0 bg-gray-800" />
-//             </div>
-
-//             <div>
-//               <h2 className="text-3xl font-bold mb-4">{album.title}</h2>
-//               {album.releaseDate && (
-//                 <p className="text-gray-400 mb-6">Released {album.releaseDate}</p>
-//               )}
-
-//               {/* Physical Format */}
-//               <div className="mb-8">
-//                 <h3 className="text-lg font-semibold mb-4">PHYSICAL</h3>
-//                 <div className="space-y-4">
-//                   <div className="flex items-center justify-between p-4 border border-gray-800 rounded">
-//                     <span>3LP (VINYL)</span>
-//                     <span>£29.99</span>
-//                     <button className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition-colors">
-//                       Add
-//                     </button>
-//                   </div>
-//                 </div>
-//               </div>
-
-//               {/* Digital Format */}
-//               <div className="mb-8">
-//                 <h3 className="text-lg font-semibold mb-4">DIGITAL</h3>
-//                 <div className="space-y-4">
-//                   <div className="flex items-center justify-between p-4 border border-gray-800 rounded">
-//                     <span>MP3</span>
-//                     <span>£5.99</span>
-//                     <button className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition-colors">
-//                       Add
-//                     </button>
-//                   </div>
-//                   <div className="flex items-center justify-between p-4 border border-gray-800 rounded">
-//                     <span>FLAC</span>
-//                     <span>£7.99</span>
-//                     <button className="bg-white text-black px-4 py-2 rounded hover:bg-gray-200 transition-colors">
-//                       Add
-//                     </button>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </main>
-//     </div>
-//   );
-// }
-
-// // app/layout.jsx
-// export default function RootLayout({ children }) {
-//   return (
-//     <html lang="en">
-//       <body className="bg-black">
-//         {children}
-//       </body>
-//     </html>
-//   );
-// }
+export default AlbumPage;

@@ -308,7 +308,9 @@ const Home = () => {
                         marginRight: '50rem',
                     }}
                 />
-                <Image src='/images/components/AAA.jpg' alt='AAA' width={500} height={500} />
+                <Link href='/album'>
+                    <Image src='/images/components/AAA.jpg' alt='AAA' width={500} height={500} />
+                </Link>
                 <ul className='font-bold text-white w-80'>
                     {[
                         { num: '1', title: 'Kite War', time: '5:56' },
