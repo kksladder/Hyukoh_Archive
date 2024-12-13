@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useRef, useState } from 'react';
 import { Container } from '@chakra-ui/layout';
 import Image from 'next/image';
@@ -11,26 +12,8 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import LoadingScreen from './LoadingScreen';
 
-function App() {
-    const [isLoading, setIsLoading] = useState(true);
-
-    const handleLoadingComplete = () => {
-        setIsLoading(false);
-    };
-
-    return (
-        <div className='App'>
-            {isLoading ? (
-                <LoadingScreen onLoadingComplete={handleLoadingComplete} />
-            ) : (
-                // 여기에 메인 콘텐츠를 렌더링
-                <div></div>
-            )}
-        </div>
-    );
-}
-
 const Home = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const canvasRef = useRef(null);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -51,10 +34,17 @@ const Home = () => {
         { href: 'https://www.instagram.com/hyukohofficial/', src: '/images/components/nav-contact.svg' },
     ];
 
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
+    const handleLoadingComplete = () => {
+        setIsLoading(false);
+    };
 
+    useEffect(() => {
+        if (isLoading) return;
+
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
         const resizeCanvas = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -110,7 +100,7 @@ const Home = () => {
             cancelAnimationFrame(render);
             clearInterval(dropInterval);
         };
-    }, []);
+    }, [isLoading]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -132,13 +122,13 @@ const Home = () => {
         setHoveredIndex(null);
     };
 
+    if (isLoading) {
+        return <LoadingScreen onLoadingComplete={handleLoadingComplete} />;
+    }
+
     return (
         <div className='relative flex flex-col items-center justify-start min-h-screen overflow-hidden'>
-            <canvas
-                ref={canvasRef}
-                className='fixed top-0 left-0 w-full h-full pointer-events-none z-0'
-                style={{ position: 'fixed', top: 0, left: 0 }}
-            ></canvas>
+            <canvas ref={canvasRef} className='fixed top-0 left-0 w-full h-full pointer-events-none z-0'></canvas>
             <Image
                 src='/images/components/sumin2.png'
                 alt='/'
@@ -152,11 +142,7 @@ const Home = () => {
                 width={400}
                 height={200}
                 className='absolute'
-                style={{
-                    position: 'absolute',
-                    marginTop: '-5rem',
-                    marginRight: '-26rem',
-                }}
+                style={{ position: 'absolute', marginTop: '-5rem', marginRight: '-26rem' }}
             />
             <Image
                 src='/images/components/hyukohmain.png'
@@ -164,11 +150,7 @@ const Home = () => {
                 width={550}
                 height={200}
                 className='absolute'
-                style={{
-                    position: 'absolute',
-                    marginTop: '23rem',
-                    marginRight: '-87rem',
-                }}
+                style={{ position: 'absolute', marginTop: '23rem', marginRight: '-87rem' }}
             />
             <Image
                 src='/images/components/paint.png'
@@ -176,11 +158,7 @@ const Home = () => {
                 width={300}
                 height={200}
                 className='absolute animate-cleaning'
-                style={{
-                    position: 'absolute',
-                    marginTop: '60rem',
-                    marginRight: '75rem',
-                }}
+                style={{ position: 'absolute', marginTop: '60rem', marginRight: '75rem' }}
             />
             <Image
                 src='/images/components/wow2.png'
@@ -188,35 +166,22 @@ const Home = () => {
                 width={500}
                 height={300}
                 className='animate-spin-slow'
-                style={{
-                    position: 'absolute',
-                    marginTop: '40rem',
-                    marginRight: '-40rem',
-                }}
+                style={{ position: 'absolute', marginTop: '40rem', marginRight: '-40rem' }}
             />
-
             <Image
                 src='/images/components/injea.png'
                 alt='/'
                 width={400}
                 height={300}
                 className='absolute animate-shake'
-                style={{
-                    position: 'absolute',
-                    marginTop: '75rem',
-                    marginRight: '24rem',
-                }}
+                style={{ position: 'absolute', marginTop: '75rem', marginRight: '24rem' }}
             />
             <Image
                 src='/images/components/band2.png'
                 alt='/'
                 width={400}
                 height={300}
-                style={{
-                    position: 'absolute',
-                    marginTop: '82rem',
-                    marginRight: '-18rem',
-                }}
+                style={{ position: 'absolute', marginTop: '82rem', marginRight: '-18rem' }}
             />
             <Image
                 src='/images/components/ma.png'
@@ -224,10 +189,7 @@ const Home = () => {
                 width={400}
                 height={300}
                 className='absolute'
-                style={{
-                    marginTop: '97rem',
-                    marginRight: '88rem',
-                }}
+                style={{ marginTop: '97rem', marginRight: '88rem' }}
             />
             <Image
                 src='/images/components/sumin.png'
@@ -235,10 +197,7 @@ const Home = () => {
                 width={400}
                 height={300}
                 className='absolute animate-wiggle-slow'
-                style={{
-                    marginTop: '109rem',
-                    marginRight: '75rem',
-                }}
+                style={{ marginTop: '109rem', marginRight: '75rem' }}
             />
             <Image
                 src='/images/components/scared.png'
@@ -246,22 +205,15 @@ const Home = () => {
                 width={700}
                 height={300}
                 className='absolute animate-shake'
-                style={{
-                    marginTop: '120rem',
-                    marginRight: '51rem',
-                }}
+                style={{ marginTop: '120rem', marginRight: '51rem' }}
             />
-
             <Image
                 src='/images/components/bat.png'
                 alt='/'
                 width={500}
                 height={300}
                 className='absolute'
-                style={{
-                    marginTop: '107rem',
-                    marginRight: '-72rem',
-                }}
+                style={{ marginTop: '107rem', marginRight: '-72rem' }}
             />
             <Image
                 src='/images/components/wow.png'
@@ -269,10 +221,7 @@ const Home = () => {
                 width={500}
                 height={300}
                 className='absolute animate-excited'
-                style={{
-                    marginTop: '118rem',
-                    marginRight: '-60rem',
-                }}
+                style={{ marginTop: '118rem', marginRight: '-60rem' }}
             />
             <Image
                 src='/images/components/up.png'
@@ -280,12 +229,8 @@ const Home = () => {
                 width={500}
                 height={300}
                 className='absolute animate-powerup'
-                style={{
-                    marginTop: '80rem',
-                    marginRight: '-65rem',
-                }}
+                style={{ marginTop: '80rem', marginRight: '-65rem' }}
             />
-
             <Main>
                 <Container>
                     <div className='flex justify-center items-center flex-wrap gap-20 mt-20 mb-8'>
@@ -322,11 +267,7 @@ const Home = () => {
                     width={400}
                     height={200}
                     className='absolute'
-                    style={{
-                        position: 'absolute',
-                        marginBottom: '71rem',
-                        marginRight: '50rem',
-                    }}
+                    style={{ position: 'absolute', marginBottom: '71rem', marginRight: '50rem' }}
                 />
                 <Link href='/album'>
                     <Image src='/images/components/AAA.jpg' alt='AAA' width={500} height={500} />

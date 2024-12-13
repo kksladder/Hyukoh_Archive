@@ -4,10 +4,16 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 9999;
+    background-color: black;
+    z-index: 1000;
+    overflow: hidden;
 }
 
 .loading-screen iframe {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
 }
