@@ -1,4 +1,4 @@
-'use client'; // Ensure this is the first line
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -21,29 +21,36 @@ const AlbumPage = () => {
     ];
 
     const [typedTracks, setTypedTracks] = useState([]);
-    const [cursorVisible, setCursorVisible] = useState(true);
 
     useEffect(() => {
         const typeTracks = async () => {
             for (const track of tracks) {
                 let typedTitle = '';
+                setTypedTracks((prevTracks) => [...prevTracks, { ...track, title: '', cursorVisible: true }]);
+
                 for (let i = 0; i < track.title.length; i++) {
                     typedTitle += track.title[i];
                     setTypedTracks((prevTracks) => {
                         const updatedTracks = [...prevTracks];
                         const trackIndex = updatedTracks.findIndex((t) => t.num === track.num);
-
                         if (trackIndex !== -1) {
-                            updatedTracks[trackIndex] = { ...track, title: typedTitle };
-                        } else {
-                            updatedTracks.push({ ...track, title: typedTitle });
+                            updatedTracks[trackIndex] = { ...updatedTracks[trackIndex], title: typedTitle };
                         }
-
                         return updatedTracks;
                     });
-                    await new Promise((resolve) => setTimeout(resolve, 100));
+                    await new Promise((resolve) => setTimeout(resolve, 50));
                 }
-                setCursorVisible(false); // Hide cursor after typing
+
+                // 타이핑이 끝나면 커서를 숨깁니다
+                setTypedTracks((prevTracks) => {
+                    const updatedTracks = [...prevTracks];
+                    const trackIndex = updatedTracks.findIndex((t) => t.num === track.num);
+                    if (trackIndex !== -1) {
+                        updatedTracks[trackIndex] = { ...updatedTracks[trackIndex], cursorVisible: false };
+                    }
+                    return updatedTracks;
+                });
+
                 await new Promise((resolve) => setTimeout(resolve, 500));
             }
         };
@@ -93,15 +100,9 @@ const AlbumPage = () => {
                                     className='flex justify-between items-center py-3 border-b border-gray-700 last:border-b-0'
                                 >
                                     <span className='font-medium text-gray-300'>{track.num}</span>
-                                    <span className='flex-grow px-4 track-title'>
-                                        {track.title.split('').map((char, i) => (
-                                            <span key={i} className='inline-block typing-effect relative'>
-                                                {char}
-                                                {i === track.title.length - 1 && cursorVisible && (
-                                                    <span className='cursor'>|</span>
-                                                )}
-                                            </span>
-                                        ))}
+                                    <span className='flex-grow px-4 track-title typing-effect'>
+                                        {track.title}
+                                        {track.cursorVisible && <span className='cursor'>|</span>}
                                     </span>
                                     <span className='text-gray-400'>{track.time}</span>
                                 </li>

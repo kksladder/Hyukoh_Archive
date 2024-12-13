@@ -10,7 +10,7 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import LoadingScreen from './LoadingScreen';
+import { LoadingScreen } from './LoadingScreen';
 
 const Home = () => {
     const [isLoading, setIsLoading] = useState(true);

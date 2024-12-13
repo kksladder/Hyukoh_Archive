@@ -1,8 +1,12 @@
 .typing-effect .cursor {
     display: inline-block;
-    width: 1px;
+    width: 3px;
     background-color: white;
-    animation: blink 1s step-end infinite;
+    animation: blink 0.1s step-end infinite; /* 깜빡이는 속도 조정 */
+}
+
+.track-title {
+    white-space: pre-wrap;
 }
 
 @keyframes blink {
