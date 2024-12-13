@@ -9,6 +9,26 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import LoadingScreen from './LoadingScreen';
+
+function App() {
+    const [isLoading, setIsLoading] = useState(true);
+
+    const handleLoadingComplete = () => {
+        setIsLoading(false);
+    };
+
+    return (
+        <div className='App'>
+            {isLoading ? (
+                <LoadingScreen onLoadingComplete={handleLoadingComplete} />
+            ) : (
+                // 여기에 메인 콘텐츠를 렌더링
+                <div></div>
+            )}
+        </div>
+    );
+}
 
 const Home = () => {
     const canvasRef = useRef(null);
