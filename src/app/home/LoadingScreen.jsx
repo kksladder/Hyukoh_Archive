@@ -1,104 +1,60 @@
-'use client';
-import React, { useState, useEffect, useRef } from 'react';
-import '../css/output/LoadingScreen.css';
-import dynamic from 'next/dynamic';
-
-const ReactPlayer = dynamic(() => import('react-player'), { ssr: false });
+import React, { useState, useEffect } from 'react';
+import '../css/output/LoadingScreen.css'; // CSS 파일을 별도로 만들었다면 import
 
 export const LoadingScreen = ({ onLoadingComplete }) => {
-    const [isReady, setIsReady] = useState(false);
-    const [isClient, setIsClient] = useState(false);
-    const playerRef = useRef(null);
-
-    const onReady = () => {
-        setIsReady(true);
-        setTimeout(onLoadingComplete, 10000);
-    };
+    const [player, setPlayer] = useState(null);
 
     useEffect(() => {
-        setIsClient(true);
-    }, []);
+        // YouTube IFrame API 비동기 로드
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    useEffect(() => {
-        if (!isClient) return;
-
-        const style = document.createElement('style');
-        style.textContent = `
-            .ytp-chrome-top, .ytp-chrome-bottom, .ytp-gradient-top, .ytp-gradient-bottom, .ytp-show-cards-title {
-                display: none !important;
-            }
-            .ytp-large-play-button {
-                display: none !important;
-            }
-            .ytp-youtube-button {
-                display: none !important;
-            }
-        `;
-        document.head.appendChild(style);
+        // YouTube IFrame API 준비 이벤트 설정
+        window.onYouTubeIframeAPIReady = () => {
+            const newPlayer = new window.YT.Player('player', {
+                videoId: 'Js67kofnQw0', // 재생할 유튜브 영상 ID
+                playerVars: {
+                    autoplay: 1, // 자동 재생
+                    controls: 0, // 재생 컨트롤러 숨기기
+                    disablekb: 1, // 키보드 제어 비활성화
+                    fs: 0, // 전체화면 버튼 숨기기
+                    rel: 0, // 관련 동영상 표시 비활성화
+                    modestbranding: 1, // 로고 최소화
+                    iv_load_policy: 3, // 정보 카드 숨기기
+                    playsinline: 1, // 인라인 재생
+                    loop: 1, // 반복 재생
+                    playlist: 'Js67kofnQw0', // 반복 재생할 비디오 ID
+                    origin: window.location.origin, // 보안 도메인 설정
+                    showinfo: 0, // 비디오 정보 숨기기
+                    autohide: 1, // 컨트롤 자동 숨기기
+                },
+                events: {
+                    onReady: (event) => {
+                        setPlayer(event.target);
+                        event.target.mute(); // 음소거
+                        event.target.playVideo(); // 비디오 재생
+                    },
+                    onStateChange: (event) => {
+                        if (event.data === window.YT.PlayerState.PLAYING) {
+                            // 재생 중일 때 로딩 완료 이벤트 호출
+                            setTimeout(onLoadingComplete, 10000);
+                        }
+                    },
+                },
+            });
+            setPlayer(newPlayer);
+        };
 
         return () => {
-            document.head.removeChild(style);
+            delete window.onYouTubeIframeAPIReady; // cleanup
         };
-    }, [isClient]);
-
-    useEffect(() => {
-        if (!isClient || !isReady) return;
-
-        const hideTitle = () => {
-            if (playerRef.current) {
-                const iframe = playerRef.current.getInternalPlayer();
-                if (iframe && iframe.contentWindow) {
-                    try {
-                        const iframeDocument = iframe.contentWindow.document;
-                        const titleElement = iframeDocument.querySelector('.ytp-title');
-                        if (titleElement) {
-                            titleElement.style.display = 'none';
-                        }
-                    } catch (error) {
-                        console.error('Error accessing iframe content:', error);
-                    }
-                }
-            }
-        };
-
-        const interval = setInterval(hideTitle, 100);
-        return () => clearInterval(interval);
-    }, [isClient, isReady]);
-
-    if (!isClient) return null;
+    }, [onLoadingComplete]);
 
     return (
         <div className='loading-screen'>
-            <ReactPlayer
-                ref={playerRef}
-                url='https://www.youtube.com/watch?v=Js67kofnQw0'
-                width='100%'
-                height='100%'
-                playing={true}
-                loop={true}
-                muted={true}
-                controls={false}
-                onReady={onReady}
-                config={{
-                    youtube: {
-                        playerVars: {
-                            modestbranding: 1,
-                            controls: 0,
-                            showinfo: 0,
-                            rel: 0,
-                            iv_load_policy: 3,
-                            disablekb: 1,
-                            fs: 0,
-                            playsinline: 1,
-                        },
-                        embedOptions: {
-                            controls: 0,
-                            showinfo: 0,
-                            rel: 0,
-                        },
-                    },
-                }}
-            />
+            <div id='player' style={{ width: '100%', height: '100%' }}></div>
         </div>
     );
 };
