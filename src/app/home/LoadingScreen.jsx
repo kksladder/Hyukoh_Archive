@@ -12,20 +12,19 @@ export const LoadingScreen = ({ onLoadingComplete }) => {
         window.onYouTubeIframeAPIReady = () => {
             new window.YT.Player('player', {
                 videoId: 'Js67kofnQw0',
-                width: '100%',
-                height: '100%',
                 playerVars: {
                     autoplay: 1,
-                    controls: 0, // Hide controls
-                    disablekb: 1, // Disable keyboard controls
-                    fs: 0, // Disable fullscreen
-                    rel: 0, // Hide related videos
-                    modestbranding: 1, // Minimize YouTube logo
-                    showinfo: 0, // Hide video info
-                    iv_load_policy: 3, // Remove video annotations
-                    playsinline: 1, // Play inline on mobile
-                    loop: 1, // Loop the video
-                    playlist: 'Js67kofnQw0', // Required for looping
+                    controls: 0,
+                    disablekb: 1,
+                    fs: 0,
+                    rel: 0,
+                    modestbranding: 1,
+                    showinfo: 0,
+                    iv_load_policy: 3,
+                    playsinline: 1,
+                    loop: 1,
+                    playlist: 'Js67kofnQw0',
+                    origin: window.location.origin,
                 },
                 events: {
                     onReady: (event) => {
@@ -48,28 +47,8 @@ export const LoadingScreen = ({ onLoadingComplete }) => {
     }, [onLoadingComplete]);
 
     return (
-        <div
-            className='loading-screen'
-            style={{
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                overflow: 'hidden',
-            }}
-        >
-            <div
-                id='player'
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    zIndex: -1,
-                }}
-            />
+        <div className='loading-screen'>
+            <div id='player'></div>
         </div>
     );
 };

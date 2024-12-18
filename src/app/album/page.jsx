@@ -59,7 +59,10 @@ const AlbumPage = () => {
 
     return (
         <div className='min-h-screen bg-black text-white flex flex-col items-center py-12'>
-            <Link href='/' className='absolute top-4 left-4 text-white hover:text-gray-300'>
+            <Link
+                href='react-sepia-five-30.vercel.app'
+                className='absolute top-4 left-4 text-white hover:text-gray-300'
+            >
                 ← Back to AAA
             </Link>
 
