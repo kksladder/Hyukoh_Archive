@@ -10,7 +10,6 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { LoadingScreen } from './LoadingScreen';
 
 const Home = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -19,6 +18,124 @@ const Home = () => {
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [isSecondPage, setIsSecondPage] = useState(false);
     const [fallenArrows, setFallenArrows] = useState([]);
+
+    const LoadingScreen = ({ onLoadComplete }) => {
+        useEffect(() => {
+            // YouTube IFrame API 로드
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            // YouTube Player 초기화
+            let player;
+            window.onYouTubeIframeAPIReady = () => {
+                player = new window.YT.Player('player1', {
+                    videoId: 'Js67kofnQw0',
+                    playerVars: {
+                        autoplay: 1,
+                        controls: 0,
+                        showinfo: 0,
+                        rel: 0,
+                        playsinline: 1,
+                        mute: 1,
+                    },
+                    events: {
+                        onReady: (event) => {
+                            event.target.mute();
+                            event.target.playVideo();
+                            // 8초 후에 로딩 완료 처리
+                            setTimeout(() => {
+                                if (onLoadComplete) {
+                                    onLoadComplete();
+                                }
+                            }, 8000);
+                        },
+                    },
+                });
+            };
+
+            return () => {
+                if (player) {
+                    player.destroy();
+                }
+                window.onYouTubeIframeAPIReady = null;
+            };
+        }, [onLoadComplete]);
+
+        return (
+            <>
+                <style>
+                    {`
+                    .loading-screen {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100vw;
+                        height: 100vh;
+                        overflow: hidden;
+                        pointer-events: none;
+                        background-color: #000;
+                        z-index: 9999;
+                    }
+
+                    .youtube__area {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                    }
+
+                    .youtube__cover {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(0, 0, 0, 0.3);
+                    }
+
+                    .player {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        min-width: 100%;
+                        min-height: 100%;
+                        width: auto;
+                        height: auto;
+                    }
+                        .loading-screen iframe {
+    pointer-events: none;
+}
+
+
+                    @media (min-aspect-ratio: 16/9) {
+                        .player {
+                            width: 100%;
+                            height: 56.25vw;
+                        }
+                    }
+
+                    @media (max-aspect-ratio: 16/9) {
+                        .player {
+                            width: 177.78vh;
+                            height: 100%;
+                        }
+                    }
+                `}
+                </style>
+
+                <div className='loading-screen'>
+                    <div className='youtube__area'>
+                        <div id='player1' className='player'></div>
+                    </div>
+                    <div className='youtube__cover'></div>
+                </div>
+            </>
+        );
+    };
 
     const links = [
         { href: 'https://youtu.be/Js67kofnQw0?si=qZ3Kw9L0YuRabPtT', src: '/images/components/AAA.jpg' },
@@ -123,7 +240,7 @@ const Home = () => {
     };
 
     if (isLoading) {
-        return <LoadingScreen onLoadingComplete={handleLoadingComplete} />;
+        return <LoadingScreen onLoadComplete={handleLoadingComplete} />;
     }
 
     return (

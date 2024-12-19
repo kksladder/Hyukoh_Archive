@@ -6,8 +6,33 @@
     height: 100vh;
     overflow: hidden;
     pointer-events: none;
+    background-color: #000;
+    z-index: 9999;
 }
-
+.player {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+}
 .loading-screen iframe {
     pointer-events: none;
+}
+
+@media (min-aspect-ratio: 16/9) {
+    .player {
+        width: 100%;
+        height: 56.25vw;
+    }
+}
+
+@media (max-aspect-ratio: 16/9) {
+    .player {
+        width: 177.78vh;
+        height: 100%;
+    }
 }
