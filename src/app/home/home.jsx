@@ -49,7 +49,7 @@ const Home = () => {
                                 if (onLoadComplete) {
                                     onLoadComplete();
                                 }
-                            }, 8000);
+                            }, 10000);
                         },
                     },
                 });
