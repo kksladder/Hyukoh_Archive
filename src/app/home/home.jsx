@@ -18,6 +18,19 @@ const Home = () => {
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [isSecondPage, setIsSecondPage] = useState(false);
     const [fallenArrows, setFallenArrows] = useState([]);
+    const [hasVisited, setHasVisited] = useState(false);
+
+    // 로컬 스토리지에서 방문 상태를 확인
+    useEffect(() => {
+        // 페이지 로드 시 로컬 스토리지 확인
+        const visited = localStorage.getItem('hasVisitedHyukoh');
+        if (visited === 'true') {
+            setHasVisited(true);
+            setIsLoading(false); // 이미 방문했다면 로딩 화면 건너뛰기
+        } else {
+            setHasVisited(false);
+        }
+    }, []);
 
     const LoadingScreen = ({ onLoadComplete }) => {
         useEffect(() => {
@@ -44,9 +57,12 @@ const Home = () => {
                         onReady: (event) => {
                             event.target.mute();
                             event.target.playVideo();
-                            // 8초 후에 로딩 완료 처리
+                            // 10초 후에 로딩 완료 처리
                             setTimeout(() => {
                                 if (onLoadComplete) {
+                                    // 방문 상태를 로컬 스토리지에 저장
+                                    localStorage.setItem('hasVisitedHyukoh', 'true');
+                                    setHasVisited(true);
                                     onLoadComplete();
                                 }
                             }, 10000);
@@ -232,6 +248,21 @@ const Home = () => {
         };
     }, []);
 
+    // 히스토리 이동 감지 및 처리
+    useEffect(() => {
+        const handlePopState = () => {
+            // 방문한 적이 있으면 로딩 화면 스킵
+            if (hasVisited) {
+                setIsLoading(false);
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, [hasVisited]);
+
     const handleMouseEnter = (index) => {
         setHoveredIndex(index);
     };
@@ -240,7 +271,8 @@ const Home = () => {
         setHoveredIndex(null);
     };
 
-    if (isLoading) {
+    // 이미 방문한 적이 있고, 뒤로가기로 왔다면 로딩 건너뛰기
+    if (isLoading && !hasVisited) {
         return <LoadingScreen onLoadComplete={handleLoadingComplete} />;
     }
 
