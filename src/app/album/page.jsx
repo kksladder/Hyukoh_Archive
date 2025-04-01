@@ -21,7 +21,7 @@ const MotionGallery = () => {
     const secondColumn = images.slice(Math.ceil(images.length / 2));
 
     return (
-        <div className='w-[430px] p-4 rounded-lg border border-gray-300' style={{ backgroundColor: '#f8f9fa' }}>
+        <div className='w-[430px] p-4 bg-gray-900 rounded-lg'>
             <div className='flex justify-between gap-4'>
                 {/* First Column */}
                 <div className='flex flex-col gap-4 w-1/2 image-column relative'>
@@ -75,60 +75,6 @@ const AlbumPage = () => {
     const [quantity, setQuantity] = useState(1);
     const [showMore, setShowMore] = useState(false);
 
-    // 라이트 모드 강제 적용
-    useEffect(() => {
-        // HTML 및 Body 요소에 직접 스타일 적용
-        document.documentElement.style.backgroundColor = '#ffffff';
-        document.documentElement.style.color = '#000000';
-        document.body.style.backgroundColor = '#ffffff';
-        document.body.style.color = '#000000';
-
-        // 스타일 태그 추가 - !important로 다크모드 설정 무시
-        const style = document.createElement('style');
-        style.id = 'force-light-mode-album';
-        style.innerHTML = `
-            html, body {
-                background-color: #ffffff !important;
-                color: #000000 !important;
-            }
-            * {
-                color-scheme: light !important;
-            }
-            @media (prefers-color-scheme: dark) {
-                html, body, div, span, p, h1, h2, h3, h4, h5, h6, ul, li {
-                    color-scheme: light !important;
-                    background-color: #ffffff !important;
-                    color: #000000 !important;
-                }
-                .bg-white {
-                    background-color: #ffffff !important;
-                }
-                .text-black {
-                    color: #000000 !important;
-                }
-                .bg-gray-100 {
-                    background-color: #f8f9fa !important;
-                }
-                .border-gray-300 {
-                    border-color: #dee2e6 !important;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // 클린업 함수
-        return () => {
-            document.documentElement.style.backgroundColor = '';
-            document.documentElement.style.color = '';
-            document.body.style.backgroundColor = '';
-            document.body.style.color = '';
-            const injectedStyle = document.getElementById('force-light-mode-album');
-            if (injectedStyle) {
-                document.head.removeChild(injectedStyle);
-            }
-        };
-    }, []);
-
     // 페이지가 로드될 때 로컬 스토리지에 방문 기록 저장
     useEffect(() => {
         // 랜딩 페이지에 방문 기록 저장
@@ -167,32 +113,7 @@ const AlbumPage = () => {
     }, []);
 
     return (
-        <div
-            className='min-h-screen flex flex-col items-center py-12'
-            style={{ backgroundColor: '#ffffff', color: '#000000' }}
-        >
-            <style
-                dangerouslySetInnerHTML={{
-                    __html: `
-                :root {
-                    color-scheme: light !important;
-                }
-                html, body {
-                    background-color: #ffffff !important;
-                    color: #000000 !important;
-                }
-                /* 다크모드를 무시하고 항상 라이트 모드로 표시 */
-                @media (prefers-color-scheme: dark) {
-                    html, body {
-                        color-scheme: light !important;
-                        background-color: #ffffff !important;
-                        color: #000000 !important;
-                    }
-                }
-            `,
-                }}
-            />
-
+        <div className='min-h-screen bg-black text-white flex flex-col items-center py-12'>
             <Link href='https://react-sepia-five-30.vercel.app/?from=album' className='absolute top-5 left-5'>
                 <Image src={'/images/components/GUOc8bHXYAAsROI.jpg'} alt={'back'} width={50} height={50} />
             </Link>
@@ -222,15 +143,12 @@ const AlbumPage = () => {
                                 </SwiperSlide>
                             ))}
                         </Swiper>
-                        <div
-                            className='read-me-section mt-12 p-6 rounded-lg max-w-[750px]'
-                            style={{ backgroundColor: '#f8f9fa', color: '#000000' }}
-                        >
+                        <div className='read-me-section mt-12 bg-gray-800 text-white p-6 rounded-lg max-w-[750px]'>
                             <h1 className='text-xl font-semibold mb-4'>
                                 혁오(HYUKOH)와 선셋 롤러코스터(Sunset Rollercoaster)의 프로젝트 앨범: AAA
                             </h1>
                             <h2>혁오(HYUKOH)와 선셋 롤러코스터(Sunset Rollercoaster)의 프로젝트 앨범: AAA</h2>
-                            <p className={`${!showMore ? 'line-clamp-3' : ''}`} style={{ color: '#495057' }}>
+                            <p className={`text-gray-300 ${!showMore ? 'line-clamp-3' : ''}`}>
                                 <br />
                                 혁오(오혁, 임현제, 임동건, 이인우, 객원 멤버 정크야드[JNKYRD])가 타이베이에서 결성된
                                 밴드 선셋 롤러코스터(Kuo-Hung Tseng, Hung-Li Chen, Shao-Hsuan Wang, Tsun-Lung Lo,
@@ -253,7 +171,7 @@ const AlbumPage = () => {
                                 앨범 작업에 매진했다.
                             </p>
                             {showMore && (
-                                <p style={{ color: '#495057' }}>
+                                <p className='text-gray-300'>
                                     <br />
                                     <br />
                                     <strong>트랙 소개</strong>
@@ -293,15 +211,7 @@ const AlbumPage = () => {
                             )}
                             <button
                                 onClick={() => setShowMore(!showMore)}
-                                style={{
-                                    backgroundColor: '#343a40',
-                                    color: 'white',
-                                    padding: '0.5rem 1rem',
-                                    borderRadius: '0.375rem',
-                                    marginTop: '1rem',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                }}
+                                className='bg-gray-800 text-white px-4 py-2 rounded-md mt-4'
                             >
                                 {showMore ? 'Show Less' : 'Read More'}
                             </button>
@@ -309,45 +219,32 @@ const AlbumPage = () => {
                     </div>
 
                     <div className='w-full md:w-1/3 mt-8 md:mt-0'>
-                        <h1 className='text-3xl font-bold mb-4' style={{ color: '#000000' }}>
-                            AAA Album
-                        </h1>
-                        <div className='p-6 rounded-lg border border-gray-300' style={{ backgroundColor: '#f8f9fa' }}>
-                            <h2 className='text-2xl font-semibold mb-4' style={{ color: '#000000' }}>
-                                Track List
-                            </h2>
+                        <h1 className='text-3xl font-bold mb-4'>AAA Album</h1>
+                        <div className='bg-gray-900 p-6 rounded-lg'>
+                            <h2 className='text-2xl font-semibold mb-4'>Track List</h2>
                             <ul className='mb-8 border-b border-gray-300'>
                                 {typedTracks.map((track, index) => (
                                     <li
                                         key={index}
                                         className='flex justify-between items-center py-3 border-b border-gray-300 last:border-b-0'
                                     >
-                                        <span style={{ fontWeight: 500, color: '#495057' }}>{track.num}</span>
+                                        <span className='font-medium text-gray-300'>{track.num}</span>
                                         <span className='flex-grow px-4 track-title typing-effect'>
                                             {track.title}
                                             {track.cursorVisible && <span className='cursor'>|</span>}
                                         </span>
-                                        <span style={{ color: '#6c757d' }}>{track.time}</span>
+                                        <span className='text-gray-400'>{track.time}</span>
                                     </li>
                                 ))}
                             </ul>
                         </div>
                         {/* Cart Section */}
-                        <div
-                            className='mt-6 p-6 rounded-lg border border-gray-300'
-                            style={{ backgroundColor: '#f8f9fa' }}
-                        >
+                        <div className='mt-6 bg-gray-900 p-6 rounded-lg'>
                             <div className='flex gap-4 items-center'>
                                 <select
                                     value={quantity}
                                     onChange={(e) => setQuantity(e.target.value)}
-                                    style={{
-                                        padding: '0.5rem 1rem',
-                                        border: '1px solid #dee2e6',
-                                        borderRadius: '0.25rem',
-                                        backgroundColor: 'white',
-                                        color: 'black',
-                                    }}
+                                    className='px-4 py-2 border border-gray-700 rounded bg-gray-800 text-white'
                                 >
                                     {[1, 2, 3, 4, 5].map((num) => (
                                         <option key={num} value={num}>
@@ -355,34 +252,10 @@ const AlbumPage = () => {
                                         </option>
                                     ))}
                                 </select>
-                                <button
-                                    style={{
-                                        padding: '0.5rem 1.5rem',
-                                        backgroundColor: '#0d6efd',
-                                        color: 'white',
-                                        borderRadius: '0.25rem',
-                                        border: 'none',
-                                        transition: 'background-color 0.2s',
-                                        fontSize: '0.875rem',
-                                        fontWeight: 500,
-                                        cursor: 'pointer',
-                                    }}
-                                >
+                                <button className='px-6 py-2 bg-gray-500 text-white rounded hover:bg-red-600 transition-colors text-sm font-medium'>
                                     Add to cart
                                 </button>
-                                <button
-                                    style={{
-                                        padding: '0.5rem 1.5rem',
-                                        backgroundColor: 'white',
-                                        color: 'black',
-                                        borderRadius: '0.25rem',
-                                        border: '1px solid #dee2e6',
-                                        transition: 'background-color 0.2s',
-                                        fontSize: '0.875rem',
-                                        fontWeight: 500,
-                                        cursor: 'pointer',
-                                    }}
-                                >
+                                <button className='px-6 py-2 bg-black text-white rounded hover:bg-gray-500 transition-colors border border-white text-sm font-medium'>
                                     Keep shopping
                                 </button>
                             </div>

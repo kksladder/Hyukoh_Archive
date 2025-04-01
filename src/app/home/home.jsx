@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Main from '@/components/layout/Main';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -14,62 +14,26 @@ import 'swiper/css/pagination';
 const Home = () => {
     const [isLoading, setIsLoading] = useState(true);
     const canvasRef = useRef(null);
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [isSecondPage, setIsSecondPage] = useState(false);
     const [fallenArrows, setFallenArrows] = useState([]);
     const [hasVisited, setHasVisited] = useState(false);
 
-    // 라이트 모드 강제 적용
-    useEffect(() => {
-        document.documentElement.style.backgroundColor = '#ffffff';
-        document.documentElement.style.color = '#000000';
-        document.body.style.backgroundColor = '#ffffff';
-        document.body.style.color = '#000000';
-
-        // ESLint 오류 회피를 위해 style 내 작은따옴표 제거
-        const styleEl = document.createElement('style');
-        styleEl.id = 'force-light-mode';
-        styleEl.innerHTML = `
-            html, body {
-                background-color: #ffffff !important;
-                color: #000000 !important;
-            }
-            * {
-                color-scheme: light !important;
-            }
-            @media (prefers-color-scheme: dark) {
-                html, body, div, span, p, h1, h2, h3, h4, h5, h6, ul, li {
-                    color-scheme: light !important;
-                    background-color: #ffffff !important;
-                    color: #000000 !important;
-                }
-            }
-        `;
-        document.head.appendChild(styleEl);
-
-        return () => {
-            document.documentElement.style.backgroundColor = '';
-            document.documentElement.style.color = '';
-            document.body.style.backgroundColor = '';
-            document.body.style.color = '';
-            const injectedStyle = document.getElementById('force-light-mode');
-            if (injectedStyle) {
-                document.head.removeChild(injectedStyle);
-            }
-        };
-    }, []);
-
     // 로컬 스토리지에서 방문 상태를 확인
     useEffect(() => {
+        // 페이지 로드 시 로컬 스토리지 확인
         const visited = localStorage.getItem('hasVisitedHyukoh');
 
+        // URL 파라미터 체크 (앨범 페이지에서 돌아왔는지 확인)
         const urlParams = new URLSearchParams(window.location.search);
         const fromAlbum = urlParams.get('from') === 'album';
 
         if (visited === 'true' || fromAlbum) {
             setHasVisited(true);
-            setIsLoading(false);
+            setIsLoading(false); // 이미 방문했거나 앨범에서 돌아왔다면 로딩 화면 건너뛰기
 
+            // 앨범에서 왔다면 URL 파라미터 제거 (히스토리 유지를 위해 replaceState 사용)
             if (fromAlbum) {
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
@@ -80,11 +44,13 @@ const Home = () => {
 
     const LoadingScreen = ({ onLoadComplete }) => {
         useEffect(() => {
+            // YouTube IFrame API 로드
             const tag = document.createElement('script');
             tag.src = 'https://www.youtube.com/iframe_api';
             const firstScriptTag = document.getElementsByTagName('script')[0];
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
+            // YouTube Player 초기화
             let player;
             window.onYouTubeIframeAPIReady = () => {
                 player = new window.YT.Player('player1', {
@@ -101,8 +67,10 @@ const Home = () => {
                         onReady: (event) => {
                             event.target.mute();
                             event.target.playVideo();
+                            // 10초 후에 로딩 완료 처리
                             setTimeout(() => {
                                 if (onLoadComplete) {
+                                    // 방문 상태를 로컬 스토리지에 저장
                                     localStorage.setItem('hasVisitedHyukoh', 'true');
                                     setHasVisited(true);
                                     onLoadComplete();
@@ -166,7 +134,6 @@ const Home = () => {
                         width: auto;
                         height: auto;
                     }
-                    
                     .loading-screen iframe {
                         pointer-events: none;
                     }
@@ -292,8 +259,10 @@ const Home = () => {
         };
     }, []);
 
+    // 히스토리 이동 감지 및 처리
     useEffect(() => {
         const handlePopState = () => {
+            // 방문한 적이 있으면 로딩 화면 스킵
             if (hasVisited) {
                 setIsLoading(false);
             }
@@ -313,37 +282,13 @@ const Home = () => {
         setHoveredIndex(null);
     };
 
+    // 이미 방문한 적이 있거나, 뒤로가기로 왔다면 로딩 건너뛰기
     if (isLoading && !hasVisited) {
         return <LoadingScreen onLoadComplete={handleLoadingComplete} />;
     }
 
     return (
-        <div
-            className='relative flex flex-col items-center justify-start min-h-screen overflow-hidden'
-            style={{ backgroundColor: '#ffffff' }}
-        >
-            {/* 다크모드 무시 스타일 */}
-            <style
-                dangerouslySetInnerHTML={{
-                    __html: `
-                :root {
-                    color-scheme: light !important;
-                }
-                html, body {
-                    background-color: #ffffff !important;
-                    color: #000000 !important;
-                }
-                @media (prefers-color-scheme: dark) {
-                    html, body {
-                        color-scheme: light !important;
-                        background-color: #ffffff !important;
-                        color: #000000 !important;
-                    }
-                }
-            `,
-                }}
-            />
-
+        <div className='relative flex flex-col items-center justify-start min-h-screen overflow-hidden'>
             <canvas ref={canvasRef} className='fixed top-0 left-0 w-full h-full pointer-events-none z-0'></canvas>
             <Image
                 src='/images/components/sumin2.png'
@@ -473,16 +418,9 @@ const Home = () => {
                 </Container>
             </Main>
             <div
-                style={{
-                    width: '100%',
-                    height: '100vh',
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    alignItems: 'center',
-                    transition: 'background-color 500ms',
-                    backgroundColor: isSecondPage ? '#f8f9fa' : '#ffffff',
-                    color: '#000000',
-                }}
+                className={`w-full h-screen flex justify-around items-center transition-colors duration-500 ${
+                    isSecondPage ? 'bg-black' : 'bg-transparent'
+                }`}
             >
                 <Image
                     src='/images/components/joje.png'
@@ -495,7 +433,7 @@ const Home = () => {
                 <Link href='/album'>
                     <Image src='/images/components/AAA.jpg' alt='AAA' width={500} height={500} />
                 </Link>
-                <ul style={{ fontWeight: 'bold', color: '#000000', width: '20rem' }}>
+                <ul className='font-bold text-white w-80'>
                     {[
                         { num: '1', title: 'Kite War', time: '5:56' },
                         { num: '2', title: 'Y', time: '5:42' },
@@ -508,37 +446,20 @@ const Home = () => {
                     ].map((track, index) => (
                         <li
                             key={index}
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                padding: '0.5rem 0',
-                                transition: 'all 700ms ease-out',
-                                transform: isSecondPage
-                                    ? 'translateX(0)'
-                                    : `translateX(${index % 2 === 0 ? '-8rem' : '8rem'})`,
-                                opacity: isSecondPage ? 1 : 0,
-                                borderBottom: isSecondPage ? '2px solid #ced4da' : 'none',
-                                color: '#000000',
-                            }}
+                            className={`flex justify-between items-center py-2 transition-all duration-700 ease-out transform ${
+                                isSecondPage
+                                    ? 'translate-x-0 opacity-100 border-b-2 border-white'
+                                    : `${index % 2 === 0 ? '-translate-x-32' : 'translate-x-32'} opacity-0`
+                            }`}
                         >
-                            <span style={{ width: '0.25rem', color: '#000000' }}>{track.num}</span>
-                            <span style={{ color: '#000000' }}>{track.title}</span>
-                            <span style={{ color: '#000000' }}>{track.time}</span>
+                            <span className='w-1'>{track.num}</span>
+                            <span>{track.title}</span>
+                            <span>{track.time}</span>
                         </li>
                     ))}
                 </ul>
             </div>
-            <div
-                style={{
-                    width: '100%',
-                    height: '100vh',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: '#ffffff',
-                }}
-            >
+            <div className='w-full h-screen flex items-center justify-center'>
                 <Swiper
                     modules={[Autoplay]}
                     spaceBetween={30}
