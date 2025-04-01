@@ -145,8 +145,9 @@ const Home = () => {
 
         return (
             <>
-                <style>
-                    {`
+                <style
+                    dangerouslySetInnerHTML={{
+                        __html: `
                     .loading-screen {
                         position: fixed;
                         top: 0;
@@ -205,8 +206,9 @@ const Home = () => {
                             height: 100%;
                         }
                     }
-                `}
-                </style>
+                `,
+                    }}
+                />
 
                 <div className='loading-screen'>
                     <div className='youtube__area'>
@@ -346,25 +348,27 @@ const Home = () => {
             style={{ backgroundColor: '#ffffff' }}
         >
             {/* 추가 전역 스타일 */}
-            <style jsx global>{`
+            <style
+                dangerouslySetInnerHTML={{
+                    __html: `
                 :root {
                     color-scheme: light !important;
                 }
-                html,
-                body {
+                html, body {
                     background-color: #ffffff !important;
                     color: #000000 !important;
                 }
                 /* 다크모드를 무시하고 항상 라이트 모드로 표시 */
                 @media (prefers-color-scheme: dark) {
-                    html,
-                    body {
+                    html, body {
                         color-scheme: light !important;
                         background-color: #ffffff !important;
                         color: #000000 !important;
                     }
                 }
-            `}</style>
+            `,
+                }}
+            />
 
             <canvas ref={canvasRef} className='fixed top-0 left-0 w-full h-full pointer-events-none z-0'></canvas>
             <Image
