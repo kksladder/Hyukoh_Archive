@@ -114,7 +114,7 @@ const AlbumPage = () => {
 
     return (
         <div className='min-h-screen bg-black text-white flex flex-col items-center py-12'>
-            <Link href='https://react-sepia-five-30.vercel.app/?from=album' className='absolute top-5 left-5'>
+            <Link href='/?from=album' className='absolute top-5 left-5'>
                 <Image src={'/images/components/GUOc8bHXYAAsROI.jpg'} alt={'back'} width={50} height={50} />
             </Link>
             <div className='w-full max-w-7xl px-4 mt-16'>

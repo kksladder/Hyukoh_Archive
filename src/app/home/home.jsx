@@ -29,6 +29,7 @@ const Home = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const fromAlbum = urlParams.get('from') === 'album';
 
+        // 이전에 방문한 적이 있거나, 다른 페이지에서 돌아왔다면 로딩 화면 스킵
         if (visited === 'true' || fromAlbum) {
             setHasVisited(true);
             setIsLoading(false); // 이미 방문했거나 앨범에서 돌아왔다면 로딩 화면 건너뛰기
@@ -39,6 +40,7 @@ const Home = () => {
             }
         } else {
             setHasVisited(false);
+            setIsLoading(true);
         }
     }, []);
 
