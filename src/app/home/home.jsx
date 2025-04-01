@@ -20,18 +20,57 @@ const Home = () => {
     const [fallenArrows, setFallenArrows] = useState([]);
     const [hasVisited, setHasVisited] = useState(false);
 
-    // 페이지에 라이트 모드 스타일 적용
+    // 라이트 모드 강제 적용 - 다크모드 무시
     useEffect(() => {
-        // body에 라이트 모드 클래스 추가
-        document.body.classList.add('light-mode');
+        // HTML 및 Body 요소에 직접 스타일 적용
+        document.documentElement.style.backgroundColor = '#ffffff';
+        document.documentElement.style.color = '#000000';
         document.body.style.backgroundColor = '#ffffff';
         document.body.style.color = '#000000';
 
-        // 컴포넌트가 언마운트될 때 클래스 제거
+        // 스타일 태그 추가 - !important로 다크모드 설정 무시
+        const style = document.createElement('style');
+        style.id = 'force-light-mode';
+        style.innerHTML = `
+            html, body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+            }
+            * {
+                color-scheme: light !important;
+            }
+            @media (prefers-color-scheme: dark) {
+                html, body, div, span, p, h1, h2, h3, h4, h5, h6, ul, li {
+                    color-scheme: light !important;
+                    background-color: #ffffff !important;
+                    color: #000000 !important;
+                }
+                .bg-white {
+                    background-color: #ffffff !important;
+                }
+                .text-black {
+                    color: #000000 !important;
+                }
+                .bg-gray-100 {
+                    background-color: #f8f9fa !important;
+                }
+                .border-gray-400 {
+                    border-color: #ced4da !important;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 클린업 함수
         return () => {
-            document.body.classList.remove('light-mode');
+            document.documentElement.style.backgroundColor = '';
+            document.documentElement.style.color = '';
             document.body.style.backgroundColor = '';
             document.body.style.color = '';
+            const injectedStyle = document.getElementById('force-light-mode');
+            if (injectedStyle) {
+                document.head.removeChild(injectedStyle);
+            }
         };
     }, []);
 
@@ -149,8 +188,8 @@ const Home = () => {
                         height: auto;
                     }
                         .loading-screen iframe {
-    pointer-events: none;
-}
+                            pointer-events: none;
+                        }
 
 
                     @media (min-aspect-ratio: 16/9) {
@@ -302,19 +341,27 @@ const Home = () => {
     }
 
     return (
-        <div className='relative flex flex-col items-center justify-start min-h-screen overflow-hidden bg-white'>
+        <div
+            className='relative flex flex-col items-center justify-start min-h-screen overflow-hidden'
+            style={{ backgroundColor: '#ffffff' }}
+        >
+            {/* 추가 전역 스타일 */}
             <style jsx global>{`
                 :root {
-                    color-scheme: light;
+                    color-scheme: light !important;
                 }
-                html {
-                    background-color: #ffffff;
+                html,
+                body {
+                    background-color: #ffffff !important;
+                    color: #000000 !important;
                 }
                 /* 다크모드를 무시하고 항상 라이트 모드로 표시 */
                 @media (prefers-color-scheme: dark) {
-                    html {
-                        color-scheme: light;
-                        background-color: #ffffff;
+                    html,
+                    body {
+                        color-scheme: light !important;
+                        background-color: #ffffff !important;
+                        color: #000000 !important;
                     }
                 }
             `}</style>
@@ -448,9 +495,16 @@ const Home = () => {
                 </Container>
             </Main>
             <div
-                className={`w-full h-screen flex justify-around items-center transition-colors duration-500 ${
-                    isSecondPage ? 'bg-gray-100' : 'bg-white'
-                }`}
+                style={{
+                    width: '100%',
+                    height: '100vh',
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                    transition: 'background-color 500ms',
+                    backgroundColor: isSecondPage ? '#f8f9fa' : '#ffffff',
+                    color: '#000000',
+                }}
             >
                 <Image
                     src='/images/components/joje.png'
@@ -463,7 +517,7 @@ const Home = () => {
                 <Link href='/album'>
                     <Image src='/images/components/AAA.jpg' alt='AAA' width={500} height={500} />
                 </Link>
-                <ul className='font-bold text-black w-80'>
+                <ul style={{ fontWeight: 'bold', color: '#000000', width: '20rem' }}>
                     {[
                         { num: '1', title: 'Kite War', time: '5:56' },
                         { num: '2', title: 'Y', time: '5:42' },
@@ -476,20 +530,37 @@ const Home = () => {
                     ].map((track, index) => (
                         <li
                             key={index}
-                            className={`flex justify-between items-center py-2 transition-all duration-700 ease-out transform ${
-                                isSecondPage
-                                    ? 'translate-x-0 opacity-100 border-b-2 border-gray-400'
-                                    : `${index % 2 === 0 ? '-translate-x-32' : 'translate-x-32'} opacity-0`
-                            }`}
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                padding: '0.5rem 0',
+                                transition: 'all 700ms ease-out',
+                                transform: isSecondPage
+                                    ? 'translateX(0)'
+                                    : `translateX(${index % 2 === 0 ? '-8rem' : '8rem'})`,
+                                opacity: isSecondPage ? 1 : 0,
+                                borderBottom: isSecondPage ? '2px solid #ced4da' : 'none',
+                                color: '#000000',
+                            }}
                         >
-                            <span className='w-1'>{track.num}</span>
-                            <span>{track.title}</span>
-                            <span>{track.time}</span>
+                            <span style={{ width: '0.25rem', color: '#000000' }}>{track.num}</span>
+                            <span style={{ color: '#000000' }}>{track.title}</span>
+                            <span style={{ color: '#000000' }}>{track.time}</span>
                         </li>
                     ))}
                 </ul>
             </div>
-            <div className='w-full h-screen flex items-center justify-center bg-white'>
+            <div
+                style={{
+                    width: '100%',
+                    height: '100vh',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: '#ffffff',
+                }}
+            >
                 <Swiper
                     modules={[Autoplay]}
                     spaceBetween={30}
