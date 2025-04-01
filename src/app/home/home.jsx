@@ -20,6 +20,21 @@ const Home = () => {
     const [fallenArrows, setFallenArrows] = useState([]);
     const [hasVisited, setHasVisited] = useState(false);
 
+    // 페이지에 라이트 모드 스타일 적용
+    useEffect(() => {
+        // body에 라이트 모드 클래스 추가
+        document.body.classList.add('light-mode');
+        document.body.style.backgroundColor = '#ffffff';
+        document.body.style.color = '#000000';
+
+        // 컴포넌트가 언마운트될 때 클래스 제거
+        return () => {
+            document.body.classList.remove('light-mode');
+            document.body.style.backgroundColor = '';
+            document.body.style.color = '';
+        };
+    }, []);
+
     // 로컬 스토리지에서 방문 상태를 확인
     useEffect(() => {
         // 페이지 로드 시 로컬 스토리지 확인
@@ -287,7 +302,23 @@ const Home = () => {
     }
 
     return (
-        <div className='relative flex flex-col items-center justify-start min-h-screen overflow-hidden'>
+        <div className='relative flex flex-col items-center justify-start min-h-screen overflow-hidden bg-white'>
+            <style jsx global>{`
+                :root {
+                    color-scheme: light;
+                }
+                html {
+                    background-color: #ffffff;
+                }
+                /* 다크모드를 무시하고 항상 라이트 모드로 표시 */
+                @media (prefers-color-scheme: dark) {
+                    html {
+                        color-scheme: light;
+                        background-color: #ffffff;
+                    }
+                }
+            `}</style>
+
             <canvas ref={canvasRef} className='fixed top-0 left-0 w-full h-full pointer-events-none z-0'></canvas>
             <Image
                 src='/images/components/sumin2.png'
@@ -418,7 +449,7 @@ const Home = () => {
             </Main>
             <div
                 className={`w-full h-screen flex justify-around items-center transition-colors duration-500 ${
-                    isSecondPage ? 'bg-black' : 'bg-transparent'
+                    isSecondPage ? 'bg-gray-100' : 'bg-white'
                 }`}
             >
                 <Image
@@ -432,7 +463,7 @@ const Home = () => {
                 <Link href='/album'>
                     <Image src='/images/components/AAA.jpg' alt='AAA' width={500} height={500} />
                 </Link>
-                <ul className='font-bold text-white w-80'>
+                <ul className='font-bold text-black w-80'>
                     {[
                         { num: '1', title: 'Kite War', time: '5:56' },
                         { num: '2', title: 'Y', time: '5:42' },
@@ -447,7 +478,7 @@ const Home = () => {
                             key={index}
                             className={`flex justify-between items-center py-2 transition-all duration-700 ease-out transform ${
                                 isSecondPage
-                                    ? 'translate-x-0 opacity-100 border-b-2 border-white'
+                                    ? 'translate-x-0 opacity-100 border-b-2 border-gray-400'
                                     : `${index % 2 === 0 ? '-translate-x-32' : 'translate-x-32'} opacity-0`
                             }`}
                         >
@@ -458,7 +489,7 @@ const Home = () => {
                     ))}
                 </ul>
             </div>
-            <div className='w-full h-screen flex items-center justify-center'>
+            <div className='w-full h-screen flex items-center justify-center bg-white'>
                 <Swiper
                     modules={[Autoplay]}
                     spaceBetween={30}

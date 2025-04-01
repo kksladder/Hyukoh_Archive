@@ -21,7 +21,7 @@ const MotionGallery = () => {
     const secondColumn = images.slice(Math.ceil(images.length / 2));
 
     return (
-        <div className='w-[430px] p-4 bg-gray-900 rounded-lg'>
+        <div className='w-[430px] p-4 bg-gray-100 rounded-lg border border-gray-300'>
             <div className='flex justify-between gap-4'>
                 {/* First Column */}
                 <div className='flex flex-col gap-4 w-1/2 image-column relative'>
@@ -75,6 +75,21 @@ const AlbumPage = () => {
     const [quantity, setQuantity] = useState(1);
     const [showMore, setShowMore] = useState(false);
 
+    // 라이트 모드 적용
+    useEffect(() => {
+        // body에 라이트 모드 클래스 추가
+        document.body.classList.add('light-mode');
+        document.body.style.backgroundColor = '#ffffff';
+        document.body.style.color = '#000000';
+
+        // 컴포넌트가 언마운트될 때 클래스 제거
+        return () => {
+            document.body.classList.remove('light-mode');
+            document.body.style.backgroundColor = '';
+            document.body.style.color = '';
+        };
+    }, []);
+
     // 페이지가 로드될 때 로컬 스토리지에 방문 기록 저장
     useEffect(() => {
         // 랜딩 페이지에 방문 기록 저장
@@ -113,7 +128,23 @@ const AlbumPage = () => {
     }, []);
 
     return (
-        <div className='min-h-screen bg-black text-white flex flex-col items-center py-12'>
+        <div className='min-h-screen bg-white text-black flex flex-col items-center py-12'>
+            <style jsx global>{`
+                :root {
+                    color-scheme: light;
+                }
+                html {
+                    background-color: #ffffff;
+                }
+                /* 다크모드를 무시하고 항상 라이트 모드로 표시 */
+                @media (prefers-color-scheme: dark) {
+                    html {
+                        color-scheme: light;
+                        background-color: #ffffff;
+                    }
+                }
+            `}</style>
+
             <Link href='https://react-sepia-five-30.vercel.app/?from=album' className='absolute top-5 left-5'>
                 <Image src={'/images/components/GUOc8bHXYAAsROI.jpg'} alt={'back'} width={50} height={50} />
             </Link>
@@ -143,12 +174,12 @@ const AlbumPage = () => {
                                 </SwiperSlide>
                             ))}
                         </Swiper>
-                        <div className='read-me-section mt-12 bg-gray-800 text-white p-6 rounded-lg max-w-[750px]'>
+                        <div className='read-me-section mt-12 bg-gray-100 text-black p-6 rounded-lg max-w-[750px]'>
                             <h1 className='text-xl font-semibold mb-4'>
                                 혁오(HYUKOH)와 선셋 롤러코스터(Sunset Rollercoaster)의 프로젝트 앨범: AAA
                             </h1>
                             <h2>혁오(HYUKOH)와 선셋 롤러코스터(Sunset Rollercoaster)의 프로젝트 앨범: AAA</h2>
-                            <p className={`text-gray-300 ${!showMore ? 'line-clamp-3' : ''}`}>
+                            <p className={`text-gray-700 ${!showMore ? 'line-clamp-3' : ''}`}>
                                 <br />
                                 혁오(오혁, 임현제, 임동건, 이인우, 객원 멤버 정크야드[JNKYRD])가 타이베이에서 결성된
                                 밴드 선셋 롤러코스터(Kuo-Hung Tseng, Hung-Li Chen, Shao-Hsuan Wang, Tsun-Lung Lo,
@@ -171,7 +202,7 @@ const AlbumPage = () => {
                                 매진했다.
                             </p>
                             {showMore && (
-                                <p>
+                                <p className='text-gray-700'>
                                     <br />
                                     <br />
                                     <strong>트랙 소개</strong>
@@ -211,7 +242,7 @@ const AlbumPage = () => {
                             )}
                             <button
                                 onClick={() => setShowMore(!showMore)}
-                                className='bg-white text-black px-4 py-2 rounded-md mt-4'
+                                className='bg-gray-800 text-white px-4 py-2 rounded-md mt-4'
                             >
                                 {showMore ? 'Show Less' : 'Read More'}
                             </button>
@@ -220,31 +251,31 @@ const AlbumPage = () => {
 
                     <div className='w-full md:w-1/3 mt-8 md:mt-0'>
                         <h1 className='text-3xl font-bold mb-4'>AAA Album</h1>
-                        <div className='bg-gray-900 p-6 rounded-lg'>
+                        <div className='bg-gray-100 p-6 rounded-lg border border-gray-300'>
                             <h2 className='text-2xl font-semibold mb-4'>Track List</h2>
-                            <ul className='mb-8 border-b border-gray-700'>
+                            <ul className='mb-8 border-b border-gray-300'>
                                 {typedTracks.map((track, index) => (
                                     <li
                                         key={index}
-                                        className='flex justify-between items-center py-3 border-b border-gray-700 last:border-b-0'
+                                        className='flex justify-between items-center py-3 border-b border-gray-300 last:border-b-0'
                                     >
-                                        <span className='font-medium text-gray-300'>{track.num}</span>
+                                        <span className='font-medium text-gray-700'>{track.num}</span>
                                         <span className='flex-grow px-4 track-title typing-effect'>
                                             {track.title}
                                             {track.cursorVisible && <span className='cursor'>|</span>}
                                         </span>
-                                        <span className='text-gray-400'>{track.time}</span>
+                                        <span className='text-gray-600'>{track.time}</span>
                                     </li>
                                 ))}
                             </ul>
                         </div>
                         {/* Cart Section */}
-                        <div className='mt-6 bg-gray-900 p-6 rounded-lg'>
+                        <div className='mt-6 bg-gray-100 p-6 rounded-lg border border-gray-300'>
                             <div className='flex gap-4 items-center'>
                                 <select
                                     value={quantity}
                                     onChange={(e) => setQuantity(e.target.value)}
-                                    className='px-4 py-2 border border-gray-700 rounded bg-gray-800 text-white'
+                                    className='px-4 py-2 border border-gray-300 rounded bg-white text-black'
                                 >
                                     {[1, 2, 3, 4, 5].map((num) => (
                                         <option key={num} value={num}>
@@ -252,10 +283,10 @@ const AlbumPage = () => {
                                         </option>
                                     ))}
                                 </select>
-                                <button className='px-6 py-2 bg-gray-500 text-white rounded hover:bg-red-600 transition-colors text-sm font-medium'>
+                                <button className='px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-sm font-medium'>
                                     Add to cart
                                 </button>
-                                <button className='px-6 py-2 bg-black text-white rounded hover:bg-gray-500 transition-colors border border-white text-sm font-medium'>
+                                <button className='px-6 py-2 bg-white text-black rounded hover:bg-gray-100 transition-colors border border-gray-300 text-sm font-medium'>
                                     Keep shopping
                                 </button>
                             </div>
