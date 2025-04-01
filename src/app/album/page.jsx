@@ -75,6 +75,12 @@ const AlbumPage = () => {
     const [quantity, setQuantity] = useState(1);
     const [showMore, setShowMore] = useState(false);
 
+    // 페이지가 로드될 때 로컬 스토리지에 방문 기록 저장
+    useEffect(() => {
+        // 랜딩 페이지에 방문 기록 저장
+        localStorage.setItem('hasVisitedHyukoh', 'true');
+    }, []);
+
     useEffect(() => {
         const typeTracks = async () => {
             for (const track of tracks) {
@@ -108,7 +114,7 @@ const AlbumPage = () => {
 
     return (
         <div className='min-h-screen bg-black text-white flex flex-col items-center py-12'>
-            <Link href='https://react-sepia-five-30.vercel.app/' className='absolute top-5 left-5'>
+            <Link href='https://react-sepia-five-30.vercel.app/?from=album' className='absolute top-5 left-5'>
                 <Image src={'/images/components/GUOc8bHXYAAsROI.jpg'} alt={'back'} width={50} height={50} />
             </Link>
             <div className='w-full max-w-7xl px-4 mt-16'>
@@ -160,7 +166,7 @@ const AlbumPage = () => {
                                 리메이크한 것. 팬데믹으로 인해 두 작업은 온라인에서만 이루어졌지만 모든 과정이 물 흐르듯
                                 편안했던 이유는 두 밴드가 서로에게 가지고 있었던 오랜 애호와 존중 때문이었고, 이 과정을
                                 통해 이들은 보다 긴밀하고 본격적인 협업을 상상하게 되었다. 팬데믹이 종식되고 2023년 3월
-                                선셋 롤러코스터가 공연을 위해 내한했을 때 다시 만난 이들은 ‘함께 만드는 음악’에 대한
+                                선셋 롤러코스터가 공연을 위해 내한했을 때 다시 만난 이들은 '함께 만드는 음악'에 대한
                                 모두의 바람을 재차 확인했고, 그로부터 1년 여의 시간 동안 이번 《AAA》 앨범 작업에
                                 매진했다.
                             </p>

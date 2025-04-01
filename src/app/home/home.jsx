@@ -24,9 +24,19 @@ const Home = () => {
     useEffect(() => {
         // 페이지 로드 시 로컬 스토리지 확인
         const visited = localStorage.getItem('hasVisitedHyukoh');
-        if (visited === 'true') {
+
+        // URL 파라미터 체크 (앨범 페이지에서 돌아왔는지 확인)
+        const urlParams = new URLSearchParams(window.location.search);
+        const fromAlbum = urlParams.get('from') === 'album';
+
+        if (visited === 'true' || fromAlbum) {
             setHasVisited(true);
-            setIsLoading(false); // 이미 방문했다면 로딩 화면 건너뛰기
+            setIsLoading(false); // 이미 방문했거나 앨범에서 돌아왔다면 로딩 화면 건너뛰기
+
+            // 앨범에서 왔다면 URL 파라미터 제거 (히스토리 유지를 위해 replaceState 사용)
+            if (fromAlbum) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
         } else {
             setHasVisited(false);
         }
@@ -271,7 +281,7 @@ const Home = () => {
         setHoveredIndex(null);
     };
 
-    // 이미 방문한 적이 있고, 뒤로가기로 왔다면 로딩 건너뛰기
+    // 이미 방문한 적이 있거나, 뒤로가기로 왔다면 로딩 건너뛰기
     if (isLoading && !hasVisited) {
         return <LoadingScreen onLoadComplete={handleLoadingComplete} />;
     }
