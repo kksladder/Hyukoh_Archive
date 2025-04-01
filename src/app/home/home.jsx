@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Main from '@/components/layout/Main';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -14,24 +14,22 @@ import 'swiper/css/pagination';
 const Home = () => {
     const [isLoading, setIsLoading] = useState(true);
     const canvasRef = useRef(null);
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [isSecondPage, setIsSecondPage] = useState(false);
     const [fallenArrows, setFallenArrows] = useState([]);
     const [hasVisited, setHasVisited] = useState(false);
 
-    // 라이트 모드 강제 적용 - 다크모드 무시
+    // 라이트 모드 강제 적용
     useEffect(() => {
-        // HTML 및 Body 요소에 직접 스타일 적용
         document.documentElement.style.backgroundColor = '#ffffff';
         document.documentElement.style.color = '#000000';
         document.body.style.backgroundColor = '#ffffff';
         document.body.style.color = '#000000';
 
-        // 스타일 태그 추가 - !important로 다크모드 설정 무시
-        const style = document.createElement('style');
-        style.id = 'force-light-mode';
-        style.innerHTML = `
+        // ESLint 오류 회피를 위해 style 내 작은따옴표 제거
+        const styleEl = document.createElement('style');
+        styleEl.id = 'force-light-mode';
+        styleEl.innerHTML = `
             html, body {
                 background-color: #ffffff !important;
                 color: #000000 !important;
@@ -45,23 +43,10 @@ const Home = () => {
                     background-color: #ffffff !important;
                     color: #000000 !important;
                 }
-                .bg-white {
-                    background-color: #ffffff !important;
-                }
-                .text-black {
-                    color: #000000 !important;
-                }
-                .bg-gray-100 {
-                    background-color: #f8f9fa !important;
-                }
-                .border-gray-400 {
-                    border-color: #ced4da !important;
-                }
             }
         `;
-        document.head.appendChild(style);
+        document.head.appendChild(styleEl);
 
-        // 클린업 함수
         return () => {
             document.documentElement.style.backgroundColor = '';
             document.documentElement.style.color = '';
@@ -76,18 +61,15 @@ const Home = () => {
 
     // 로컬 스토리지에서 방문 상태를 확인
     useEffect(() => {
-        // 페이지 로드 시 로컬 스토리지 확인
         const visited = localStorage.getItem('hasVisitedHyukoh');
 
-        // URL 파라미터 체크 (앨범 페이지에서 돌아왔는지 확인)
         const urlParams = new URLSearchParams(window.location.search);
         const fromAlbum = urlParams.get('from') === 'album';
 
         if (visited === 'true' || fromAlbum) {
             setHasVisited(true);
-            setIsLoading(false); // 이미 방문했거나 앨범에서 돌아왔다면 로딩 화면 건너뛰기
+            setIsLoading(false);
 
-            // 앨범에서 왔다면 URL 파라미터 제거 (히스토리 유지를 위해 replaceState 사용)
             if (fromAlbum) {
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
@@ -98,13 +80,11 @@ const Home = () => {
 
     const LoadingScreen = ({ onLoadComplete }) => {
         useEffect(() => {
-            // YouTube IFrame API 로드
             const tag = document.createElement('script');
             tag.src = 'https://www.youtube.com/iframe_api';
             const firstScriptTag = document.getElementsByTagName('script')[0];
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-            // YouTube Player 초기화
             let player;
             window.onYouTubeIframeAPIReady = () => {
                 player = new window.YT.Player('player1', {
@@ -121,10 +101,8 @@ const Home = () => {
                         onReady: (event) => {
                             event.target.mute();
                             event.target.playVideo();
-                            // 10초 후에 로딩 완료 처리
                             setTimeout(() => {
                                 if (onLoadComplete) {
-                                    // 방문 상태를 로컬 스토리지에 저장
                                     localStorage.setItem('hasVisitedHyukoh', 'true');
                                     setHasVisited(true);
                                     onLoadComplete();
@@ -188,10 +166,10 @@ const Home = () => {
                         width: auto;
                         height: auto;
                     }
-                        .loading-screen iframe {
-                            pointer-events: none;
-                        }
-
+                    
+                    .loading-screen iframe {
+                        pointer-events: none;
+                    }
 
                     @media (min-aspect-ratio: 16/9) {
                         .player {
@@ -314,10 +292,8 @@ const Home = () => {
         };
     }, []);
 
-    // 히스토리 이동 감지 및 처리
     useEffect(() => {
         const handlePopState = () => {
-            // 방문한 적이 있으면 로딩 화면 스킵
             if (hasVisited) {
                 setIsLoading(false);
             }
@@ -337,7 +313,6 @@ const Home = () => {
         setHoveredIndex(null);
     };
 
-    // 이미 방문한 적이 있거나, 뒤로가기로 왔다면 로딩 건너뛰기
     if (isLoading && !hasVisited) {
         return <LoadingScreen onLoadComplete={handleLoadingComplete} />;
     }
@@ -347,7 +322,7 @@ const Home = () => {
             className='relative flex flex-col items-center justify-start min-h-screen overflow-hidden'
             style={{ backgroundColor: '#ffffff' }}
         >
-            {/* 추가 전역 스타일 */}
+            {/* 다크모드 무시 스타일 */}
             <style
                 dangerouslySetInnerHTML={{
                     __html: `
@@ -358,7 +333,6 @@ const Home = () => {
                     background-color: #ffffff !important;
                     color: #000000 !important;
                 }
-                /* 다크모드를 무시하고 항상 라이트 모드로 표시 */
                 @media (prefers-color-scheme: dark) {
                     html, body {
                         color-scheme: light !important;
